@@ -301,6 +301,7 @@
             margin-top: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow-x: auto;
+            overflow-y: visible;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -441,6 +442,7 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow-x: auto;
+            overflow-y: visible;
         }
 
         .grouped-chart {
@@ -448,7 +450,7 @@
             align-items: flex-end;
             gap: 15px;
             min-height: 400px;
-            padding: 20px 0 60px 0;
+            padding: 30px 0 60px 0;
             position: relative;
             overflow-x: auto;
             overflow-y: visible;
@@ -499,6 +501,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
+            overflow: visible;
         }
 
         .grouped-bar-wrapper {
@@ -583,6 +586,25 @@
             font-size: 0.9em;
         }
 
+        footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer .developer {
+            font-weight: 600;
+            color: #123E92;
+        }
+
         @media (max-width: 1024px) {
             .container {
                 margin: 10px;
@@ -604,6 +626,15 @@
 
             .grouped-bars-container {
                 height: 300px;
+            }
+
+            .grouped-chart {
+                padding: 40px 0 55px 0;
+                min-height: 380px;
+            }
+
+            .grouped-chart {
+                padding: 30px 0 55px 0;
             }
         }
 
@@ -692,9 +723,10 @@
 
             .grouped-chart {
                 min-width: 100%;
-                min-height: 300px;
+                min-height: 480px;
                 gap: 10px;
-                padding: 15px 0 50px 0;
+                padding: 80px 0 50px 0;
+                overflow-y: visible;
             }
 
             .grouped-chart-item {
@@ -707,7 +739,7 @@
             }
 
             .grouped-bars-container {
-                height: 250px;
+                height: 400px;
             }
 
             .grouped-bar {
@@ -721,8 +753,11 @@
             }
 
             .grouped-bar-value {
-                font-size: 0.7em;
-                top: -20px;
+                font-size: 0.75em;
+                top: -35px;
+                padding: 2px 5px;
+                background: rgba(255, 255, 255, 0.98);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
             }
 
             .bar-label {
@@ -792,8 +827,10 @@
             }
 
             .grouped-chart {
-                min-height: 250px;
+                min-height: 480px;
                 gap: 8px;
+                padding: 75px 0 45px 0;
+                overflow-y: visible;
             }
 
             .grouped-chart-item {
@@ -806,7 +843,15 @@
             }
 
             .grouped-bars-container {
-                height: 200px;
+                height: 400px;
+            }
+
+            .grouped-bar-value {
+                font-size: 0.7em;
+                top: -32px;
+                padding: 2px 4px;
+                background: rgba(255, 255, 255, 0.98);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
             }
 
             .grouped-bar {
@@ -828,6 +873,11 @@
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 0.85em;
             }
         }
     </style>
@@ -1034,6 +1084,11 @@
                 </div>
             </div>
         </div>
+
+        <footer>
+            <p><span class="developer">Desarrollado para FEDEMOTO - Mauricio Sánchez Aguilar</span></p>
+            <p>Este proyecto es de uso interno de FEDEMOTO.</p>
+        </footer>
     </div>
 
     <script>

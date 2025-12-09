@@ -182,7 +182,7 @@ Este proyecto es de uso interno de FEDEMOTO.
 
 ## 👥 Autor
 
-Desarrollado para FEDEMOTO - Federación Colombiana de Motociclismo
+Desarrollado para FEDEMOTO - Mauricio Sánchez Aguilar
 
 ---
 
