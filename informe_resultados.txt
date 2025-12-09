@@ -1,0 +1,1085 @@
+================================================================================
+INFORME GENERAL - FEDEMOTO 2025
+================================================================================
+
+1. CANTIDAD TOTAL DE PILOTOS ÚNICOS PARTICIPANTES
+--------------------------------------------------------------------------------
+Total: 711 pilotos únicos
+
+1.1. CANTIDAD TOTAL DE PARTICIPACIONES (INCLUYENDO REPETIDOS)
+--------------------------------------------------------------------------------
+Total: 2272 participaciones
+
+2. CANTIDAD DE PILOTOS POR CADA CATEGORÍA
+--------------------------------------------------------------------------------
+115 cc elite: 73 pilotos únicos
+115 cc infantil: 31 pilotos únicos
+115 cc inicio: 69 pilotos únicos
+115 cc master: 57 pilotos únicos
+115cc inicio: 53 pilotos únicos
+125: 25 pilotos únicos
+125 cc: 27 pilotos únicos
+150 cc: 74 pilotos únicos
+150 cc inicio: 71 pilotos únicos
+150 cc master: 53 pilotos únicos
+190 MB: 12 pilotos únicos
+200 2T: 21 pilotos únicos
+200 Expertos: 26 pilotos únicos
+200 Novatos: 41 pilotos únicos
+200 cc 2t: 40 pilotos únicos
+220 cc 4t: 55 pilotos únicos
+50 cc: 20 pilotos únicos
+50 cc novatos: 13 pilotos únicos
+50cc: 11 pilotos únicos
+65 cc: 26 pilotos únicos
+85 cc junior: 25 pilotos únicos
+85 cc mini: 23 pilotos únicos
+CRS expertos: 49 pilotos únicos
+CRS novatos: 81 pilotos únicos
+Enduro 1: 19 pilotos únicos
+Enduro 2: 19 pilotos únicos
+Enduro 3: 19 pilotos únicos
+Femenina: 44 pilotos únicos
+Inicio: 72 pilotos únicos
+Junior: 16 pilotos únicos
+Junior novatos: 5 pilotos únicos
+LGP Mobility: 6 pilotos únicos
+MB 190: 19 pilotos únicos
+MB Fedemoto: 7 pilotos únicos
+MX Pre-expertos: 21 pilotos únicos
+MX master: 21 pilotos únicos
+MX pro: 20 pilotos únicos
+MX2: 15 pilotos únicos
+Master: 24 pilotos únicos
+Master A: 23 pilotos únicos
+Master B: 14 pilotos únicos
+Minimotard: 27 pilotos únicos
+No racer: 14 pilotos únicos
+Pit bike: 27 pilotos únicos
+Pit bike infantil: 15 pilotos únicos
+Pit bike infantil.1: 15 pilotos únicos
+Street race 250: 58 pilotos únicos
+Super sport: 22 pilotos únicos
+Superbike: 24 pilotos únicos
+Supermoto expertos: 33 pilotos únicos
+Supermoto novatos: 48 pilotos únicos
+Yamaha R15: 26 pilotos únicos
+femenina: 21 pilotos únicos
+infantil: 54 pilotos únicos
+infantil E1: 13 pilotos únicos
+infantil E2: 13 pilotos únicos
+infantil E3: 8 pilotos únicos
+infantil juvenil: 14 pilotos únicos
+infantil mini: 36 pilotos únicos
+infantil.1: 22 pilotos únicos
+juvenil: 32 pilotos únicos
+libre novatos: 47 pilotos únicos
+libre pro: 32 pilotos únicos
+ss 1000: 10 pilotos únicos
+ss 600: 19 pilotos únicos
+x-bikes A: 17 pilotos únicos
+x-bikes B: 13 pilotos únicos
+
+3. CANTIDAD DE DEPORTISTAS ÚNICOS POR LIGAS TOTALES
+--------------------------------------------------------------------------------
+ANTIOQUIA: 140 deportistas únicos
+ARAUCA: 3 deportistas únicos
+BOGOTA: 126 deportistas únicos
+CALDAS: 43 deportistas únicos
+CASANARE: 23 deportistas únicos
+CAUCA: 57 deportistas únicos
+CESAR: 27 deportistas únicos
+CUNDINAMARCA: 108 deportistas únicos
+HUILA: 24 deportistas únicos
+META: 23 deportistas únicos
+NARINO: 59 deportistas únicos
+PUTUMAYO: 44 deportistas únicos
+QUINDIO: 62 deportistas únicos
+RISARALDA: 31 deportistas únicos
+SANTANDER: 39 deportistas únicos
+TOLIMA: 167 deportistas únicos
+VALLE: 126 deportistas únicos
+
+4. CANTIDAD DE DEPORTISTAS ÚNICOS POR LIGAS POR CATEGORÍA
+--------------------------------------------------------------------------------
+
+115 cc elite:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 5 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  CESAR: 3 deportistas únicos
+  CUNDINAMARCA: 4 deportistas únicos
+  META: 10 deportistas únicos
+  NARINO: 4 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 7 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 12 deportistas únicos
+  VALLE: 12 deportistas únicos
+
+115 cc infantil:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 3 deportistas únicos
+  CASANARE: 2 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CESAR: 5 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  HUILA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  NARINO: 1 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  SANTANDER: 3 deportistas únicos
+  TOLIMA: 6 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+115 cc inicio:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CASANARE: 4 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  CESAR: 8 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  HUILA: 3 deportistas únicos
+  META: 5 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 2 deportistas únicos
+  QUINDIO: 8 deportistas únicos
+  SANTANDER: 4 deportistas únicos
+  TOLIMA: 12 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+115 cc master:
+  ANTIOQUIA: 9 deportistas únicos
+  CALDAS: 4 deportistas únicos
+  CAUCA: 5 deportistas únicos
+  CUNDINAMARCA: 5 deportistas únicos
+  HUILA: 2 deportistas únicos
+  META: 4 deportistas únicos
+  NARINO: 4 deportistas únicos
+  QUINDIO: 5 deportistas únicos
+  RISARALDA: 3 deportistas únicos
+  SANTANDER: 4 deportistas únicos
+  TOLIMA: 7 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+115cc inicio:
+  ARAUCA: 3 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CASANARE: 2 deportistas únicos
+  CAUCA: 13 deportistas únicos
+  HUILA: 5 deportistas únicos
+  META: 5 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 10 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+125:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 2 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  RISARALDA: 3 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+125 cc:
+  ANTIOQUIA: 8 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CESAR: 1 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 2 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 3 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+150 cc:
+  ANTIOQUIA: 9 deportistas únicos
+  BOGOTA: 2 deportistas únicos
+  CALDAS: 4 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  CESAR: 2 deportistas únicos
+  CUNDINAMARCA: 7 deportistas únicos
+  HUILA: 2 deportistas únicos
+  META: 8 deportistas únicos
+  NARINO: 3 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 6 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 11 deportistas únicos
+  VALLE: 12 deportistas únicos
+
+150 cc inicio:
+  ANTIOQUIA: 3 deportistas únicos
+  ARAUCA: 3 deportistas únicos
+  BOGOTA: 2 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CASANARE: 2 deportistas únicos
+  CAUCA: 9 deportistas únicos
+  CESAR: 8 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  HUILA: 6 deportistas únicos
+  META: 2 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 14 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  SANTANDER: 4 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+  VALLE: 5 deportistas únicos
+
+150 cc master:
+  ANTIOQUIA: 10 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 6 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 5 deportistas únicos
+  HUILA: 3 deportistas únicos
+  META: 2 deportistas únicos
+  NARINO: 2 deportistas únicos
+  QUINDIO: 5 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 3 deportistas únicos
+  TOLIMA: 11 deportistas únicos
+  VALLE: 3 deportistas únicos
+
+190 MB:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  CESAR: 2 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+200 2T:
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  META: 2 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 2 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+200 Expertos:
+  ANTIOQUIA: 3 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 4 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  TOLIMA: 8 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+200 Novatos:
+  CALDAS: 1 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  NARINO: 11 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 6 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 7 deportistas únicos
+  VALLE: 8 deportistas únicos
+
+200 cc 2t:
+  ANTIOQUIA: 5 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  CESAR: 1 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  HUILA: 2 deportistas únicos
+  META: 4 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+220 cc 4t:
+  ANTIOQUIA: 3 deportistas únicos
+  BOGOTA: 5 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  CUNDINAMARCA: 15 deportistas únicos
+  HUILA: 1 deportistas únicos
+  META: 2 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 19 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+50 cc:
+  ANTIOQUIA: 7 deportistas únicos
+  BOGOTA: 4 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CASANARE: 1 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 2 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+50 cc novatos:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 2 deportistas únicos
+  CASANARE: 1 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+
+50cc:
+  CESAR: 1 deportistas únicos
+  HUILA: 5 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+
+65 cc:
+  ANTIOQUIA: 3 deportistas únicos
+  BOGOTA: 10 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 5 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+85 cc junior:
+  ANTIOQUIA: 7 deportistas únicos
+  BOGOTA: 4 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CASANARE: 1 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 4 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+85 cc mini:
+  ANTIOQUIA: 5 deportistas únicos
+  BOGOTA: 10 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+CRS expertos:
+  ANTIOQUIA: 5 deportistas únicos
+  BOGOTA: 8 deportistas únicos
+  CASANARE: 1 deportistas únicos
+  CUNDINAMARCA: 11 deportistas únicos
+  HUILA: 2 deportistas únicos
+  META: 6 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 10 deportistas únicos
+  VALLE: 3 deportistas únicos
+
+CRS novatos:
+  ANTIOQUIA: 8 deportistas únicos
+  BOGOTA: 14 deportistas únicos
+  CASANARE: 1 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  CESAR: 3 deportistas únicos
+  CUNDINAMARCA: 18 deportistas únicos
+  HUILA: 3 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 2 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 26 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Enduro 1:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 6 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 5 deportistas únicos
+
+Enduro 2:
+  ANTIOQUIA: 3 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CUNDINAMARCA: 6 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+Enduro 3:
+  ANTIOQUIA: 4 deportistas únicos
+  CUNDINAMARCA: 7 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+  VALLE: 3 deportistas únicos
+
+Femenina:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 7 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 15 deportistas únicos
+  HUILA: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 6 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+Inicio:
+  ANTIOQUIA: 11 deportistas únicos
+  BOGOTA: 5 deportistas únicos
+  CALDAS: 4 deportistas únicos
+  CASANARE: 7 deportistas únicos
+  CAUCA: 5 deportistas únicos
+  CESAR: 3 deportistas únicos
+  CUNDINAMARCA: 8 deportistas únicos
+  NARINO: 3 deportistas únicos
+  PUTUMAYO: 10 deportistas únicos
+  QUINDIO: 2 deportistas únicos
+  TOLIMA: 11 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+Junior:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 4 deportistas únicos
+  CUNDINAMARCA: 5 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Junior novatos:
+  BOGOTA: 2 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+
+LGP Mobility:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+MB 190:
+  ANTIOQUIA: 8 deportistas únicos
+  BOGOTA: 5 deportistas únicos
+  CESAR: 2 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+
+MB Fedemoto:
+  BOGOTA: 1 deportistas únicos
+  CESAR: 2 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+
+MX Pre-expertos:
+  ANTIOQUIA: 7 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CASANARE: 4 deportistas únicos
+  CESAR: 1 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+MX master:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 4 deportistas únicos
+  CALDAS: 4 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  NARINO: 1 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+
+MX pro:
+  ANTIOQUIA: 4 deportistas únicos
+  BOGOTA: 5 deportistas únicos
+  CAUCA: 5 deportistas únicos
+  NARINO: 3 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+
+MX2:
+  ANTIOQUIA: 5 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Master:
+  ANTIOQUIA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  NARINO: 4 deportistas únicos
+  PUTUMAYO: 4 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 8 deportistas únicos
+
+Master A:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CUNDINAMARCA: 4 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+Master B:
+  ANTIOQUIA: 4 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+Minimotard:
+  ANTIOQUIA: 9 deportistas únicos
+  CALDAS: 5 deportistas únicos
+  CASANARE: 2 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  HUILA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 3 deportistas únicos
+
+No racer:
+  CUNDINAMARCA: 2 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+Pit bike:
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 11 deportistas únicos
+  VALLE: 5 deportistas únicos
+
+Pit bike infantil:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CESAR: 1 deportistas únicos
+  HUILA: 1 deportistas únicos
+  QUINDIO: 4 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Pit bike infantil.1:
+  ANTIOQUIA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CAUCA: 2 deportistas únicos
+  META: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+Street race 250:
+  ANTIOQUIA: 4 deportistas únicos
+  BOGOTA: 13 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CESAR: 3 deportistas únicos
+  CUNDINAMARCA: 12 deportistas únicos
+  HUILA: 1 deportistas únicos
+  META: 3 deportistas únicos
+  PUTUMAYO: 2 deportistas únicos
+  TOLIMA: 18 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+Super sport:
+  ANTIOQUIA: 6 deportistas únicos
+  BOGOTA: 10 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  SANTANDER: 3 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Superbike:
+  ANTIOQUIA: 7 deportistas únicos
+  BOGOTA: 6 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  NARINO: 1 deportistas únicos
+  SANTANDER: 5 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+Supermoto expertos:
+  ANTIOQUIA: 13 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  META: 2 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Supermoto novatos:
+  ANTIOQUIA: 13 deportistas únicos
+  BOGOTA: 5 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  HUILA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  NARINO: 4 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  SANTANDER: 3 deportistas únicos
+  TOLIMA: 14 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+Yamaha R15:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 6 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  HUILA: 3 deportistas únicos
+  META: 1 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 8 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+femenina:
+  CALDAS: 1 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 3 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 7 deportistas únicos
+
+infantil:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 9 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CAUCA: 5 deportistas únicos
+  CESAR: 4 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  HUILA: 2 deportistas únicos
+  NARINO: 5 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  RISARALDA: 4 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 9 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+infantil E1:
+  BOGOTA: 2 deportistas únicos
+  CUNDINAMARCA: 5 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 2 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+infantil E2:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 4 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+infantil E3:
+  BOGOTA: 3 deportistas únicos
+  CUNDINAMARCA: 3 deportistas únicos
+  TOLIMA: 1 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+infantil juvenil:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CUNDINAMARCA: 8 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+infantil mini:
+  ANTIOQUIA: 5 deportistas únicos
+  BOGOTA: 7 deportistas únicos
+  CUNDINAMARCA: 5 deportistas únicos
+  NARINO: 2 deportistas únicos
+  PUTUMAYO: 2 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  RISARALDA: 5 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 6 deportistas únicos
+
+infantil.1:
+  ANTIOQUIA: 1 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 4 deportistas únicos
+  CUNDINAMARCA: 2 deportistas únicos
+  NARINO: 2 deportistas únicos
+  RISARALDA: 3 deportistas únicos
+  TOLIMA: 4 deportistas únicos
+  VALLE: 2 deportistas únicos
+
+juvenil:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  CUNDINAMARCA: 4 deportistas únicos
+  NARINO: 4 deportistas únicos
+  PUTUMAYO: 5 deportistas únicos
+  QUINDIO: 3 deportistas únicos
+  RISARALDA: 3 deportistas únicos
+  TOLIMA: 3 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+libre novatos:
+  ANTIOQUIA: 2 deportistas únicos
+  CALDAS: 2 deportistas únicos
+  HUILA: 1 deportistas únicos
+  NARINO: 9 deportistas únicos
+  PUTUMAYO: 7 deportistas únicos
+  QUINDIO: 6 deportistas únicos
+  RISARALDA: 4 deportistas únicos
+  TOLIMA: 7 deportistas únicos
+  VALLE: 9 deportistas únicos
+
+libre pro:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 1 deportistas únicos
+  CAUCA: 3 deportistas únicos
+  NARINO: 4 deportistas únicos
+  PUTUMAYO: 6 deportistas únicos
+  QUINDIO: 1 deportistas únicos
+  RISARALDA: 1 deportistas únicos
+  TOLIMA: 4 deportistas únicos
+  VALLE: 10 deportistas únicos
+
+ss 1000:
+  ANTIOQUIA: 4 deportistas únicos
+  BOGOTA: 3 deportistas únicos
+  PUTUMAYO: 1 deportistas únicos
+  SANTANDER: 1 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+ss 600:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 8 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CESAR: 1 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  META: 1 deportistas únicos
+  SANTANDER: 2 deportistas únicos
+  TOLIMA: 2 deportistas únicos
+  VALLE: 1 deportistas únicos
+
+x-bikes A:
+  ANTIOQUIA: 3 deportistas únicos
+  BOGOTA: 8 deportistas únicos
+  CALDAS: 1 deportistas únicos
+  CAUCA: 1 deportistas únicos
+  VALLE: 4 deportistas únicos
+
+x-bikes B:
+  ANTIOQUIA: 2 deportistas únicos
+  BOGOTA: 2 deportistas únicos
+  CUNDINAMARCA: 1 deportistas únicos
+  SANTANDER: 3 deportistas únicos
+  TOLIMA: 5 deportistas únicos
+
+================================================================================
+DETALLE POR MODALIDAD
+================================================================================
+
+
+MODALIDAD: Velotierra 1er semestre
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 178
+Total de participaciones en esta modalidad: 235
+
+Pilotos por categoría:
+  125: 16
+  200 Expertos: 14
+  200 Novatos: 30
+  Master: 17
+  Pit bike: 8
+  femenina: 17
+  infantil: 26
+  infantil mini: 21
+  juvenil: 29
+  libre novatos: 34
+  libre pro: 23
+
+Deportistas por liga:
+  ANTIOQUIA: 10
+  BOGOTA: 9
+  CALDAS: 5
+  CAUCA: 5
+  CUNDINAMARCA: 5
+  META: 1
+  NARINO: 28
+  PUTUMAYO: 16
+  QUINDIO: 15
+  RISARALDA: 14
+  SANTANDER: 2
+  TOLIMA: 19
+  VALLE: 51
+
+MODALIDAD: Velotierra 2do semestre
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 123
+Total de participaciones en esta modalidad: 168
+
+Pilotos por categoría:
+  125: 16
+  200 Expertos: 16
+  200 Novatos: 16
+  Master: 13
+  Pit bike: 9
+  femenina: 10
+  infantil: 22
+  infantil mini: 15
+  juvenil: 16
+  libre novatos: 20
+  libre pro: 15
+
+Deportistas por liga:
+  ANTIOQUIA: 2
+  BOGOTA: 6
+  CALDAS: 6
+  CAUCA: 9
+  CUNDINAMARCA: 5
+  HUILA: 1
+  META: 1
+  NARINO: 18
+  PUTUMAYO: 16
+  QUINDIO: 4
+  RISARALDA: 10
+  TOLIMA: 35
+  VALLE: 11
+
+MODALIDAD: Velocidad
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 192
+Total de participaciones en esta modalidad: 368
+
+Pilotos por categoría:
+  115 cc elite: 45
+  115 cc infantil: 20
+  115 cc master: 30
+  115cc inicio: 53
+  150 cc: 35
+  150 cc inicio: 34
+  150 cc master: 24
+  190 MB: 12
+  200 2T: 21
+  50cc: 11
+  Pit bike: 13
+  Pit bike infantil: 15
+  Pit bike infantil.1: 15
+  infantil: 18
+  infantil.1: 22
+
+Deportistas por liga:
+  ANTIOQUIA: 6
+  ARAUCA: 3
+  BOGOTA: 6
+  CALDAS: 16
+  CASANARE: 2
+  CAUCA: 28
+  CESAR: 5
+  CUNDINAMARCA: 6
+  HUILA: 13
+  META: 14
+  NARINO: 13
+  PUTUMAYO: 5
+  QUINDIO: 27
+  RISARALDA: 8
+  SANTANDER: 5
+  TOLIMA: 19
+  VALLE: 27
+
+MODALIDAD: Enduro
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 221
+Total de participaciones en esta modalidad: 229
+
+Pilotos por categoría:
+  Enduro 1: 19
+  Enduro 2: 19
+  Enduro 3: 19
+  Femenina: 7
+  Inicio: 35
+  Junior: 16
+  Junior novatos: 5
+  Master A: 23
+  Master B: 14
+  No racer: 14
+  infantil E1: 13
+  infantil E2: 13
+  infantil E3: 8
+  infantil juvenil: 14
+  infantil mini: 10
+
+Deportistas por liga:
+  ANTIOQUIA: 31
+  BOGOTA: 35
+  CALDAS: 3
+  CESAR: 3
+  CUNDINAMARCA: 55
+  QUINDIO: 13
+  RISARALDA: 7
+  TOLIMA: 35
+  VALLE: 39
+
+MODALIDAD: Moto GP
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 469
+Total de participaciones en esta modalidad: 908
+
+Pilotos por categoría:
+  115 cc elite: 54
+  115 cc infantil: 22
+  115 cc inicio: 69
+  115 cc master: 39
+  150 cc: 63
+  150 cc inicio: 44
+  150 cc master: 40
+  200 cc 2t: 40
+  220 cc 4t: 55
+  CRS expertos: 49
+  CRS novatos: 81
+  Femenina: 23
+  LGP Mobility: 6
+  MB 190: 19
+  MB Fedemoto: 7
+  Minimotard: 27
+  Street race 250: 58
+  Super sport: 22
+  Superbike: 24
+  Supermoto expertos: 33
+  Supermoto novatos: 48
+  Yamaha R15: 26
+  ss 1000: 10
+  ss 600: 19
+  x-bikes A: 17
+  x-bikes B: 13
+
+Deportistas por liga:
+  ANTIOQUIA: 68
+  BOGOTA: 65
+  CALDAS: 17
+  CASANARE: 8
+  CAUCA: 10
+  CESAR: 22
+  CUNDINAMARCA: 52
+  HUILA: 12
+  META: 16
+  NARINO: 12
+  PUTUMAYO: 7
+  QUINDIO: 20
+  RISARALDA: 2
+  SANTANDER: 32
+  TOLIMA: 100
+  VALLE: 30
+
+MODALIDAD: Motocross 1er semestre
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 142
+Total de participaciones en esta modalidad: 182
+
+Pilotos por categoría:
+  125 cc: 17
+  50 cc: 14
+  50 cc novatos: 11
+  65 cc: 21
+  85 cc junior: 20
+  85 cc mini: 20
+  Femenina: 10
+  Inicio: 17
+  MX Pre-expertos: 13
+  MX master: 14
+  MX pro: 12
+  MX2: 13
+
+Deportistas por liga:
+  ANTIOQUIA: 45
+  BOGOTA: 34
+  CALDAS: 13
+  CASANARE: 5
+  CAUCA: 10
+  CESAR: 1
+  CUNDINAMARCA: 4
+  NARINO: 2
+  PUTUMAYO: 3
+  QUINDIO: 1
+  RISARALDA: 12
+  SANTANDER: 2
+  TOLIMA: 1
+  VALLE: 11
+
+MODALIDAD: Motocross 2do semestre
+--------------------------------------------------------------------------------
+Pilotos únicos en esta modalidad: 138
+Total de participaciones en esta modalidad: 182
+
+Pilotos por categoría:
+  125 cc: 17
+  50 cc: 15
+  50 cc novatos: 9
+  65 cc: 18
+  85 cc junior: 16
+  85 cc mini: 14
+  Femenina: 9
+  Inicio: 32
+  MX Pre-expertos: 14
+  MX master: 12
+  MX pro: 16
+  MX2: 10
+
+Deportistas por liga:
+  ANTIOQUIA: 28
+  BOGOTA: 16
+  CALDAS: 4
+  CASANARE: 14
+  CAUCA: 18
+  CUNDINAMARCA: 4
+  NARINO: 13
+  PUTUMAYO: 20
+  QUINDIO: 2
+  RISARALDA: 8
+  SANTANDER: 2
+  TOLIMA: 1
+  VALLE: 12
