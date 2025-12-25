@@ -891,3 +891,10 @@ with open(output_path, 'w', encoding='utf-8') as f:
 
 print(f"HTML generado en: {output_path}")
 
+# Eliminar el archivo JSON después de generar el HTML
+try:
+    os.remove(json_path)
+    print(f"Archivo JSON eliminado: {json_path}")
+except Exception as e:
+    print(f"Advertencia: No se pudo eliminar el archivo JSON {json_path}: {e}")
+
