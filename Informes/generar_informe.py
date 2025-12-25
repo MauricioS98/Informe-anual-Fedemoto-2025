@@ -1,0 +1,893 @@
+import json
+import os
+
+# Uso: python generar_informe.py <ruta_json> <ruta_output_html> <nombre_valida>
+# Ejemplo: python generar_informe.py "Valida de ejemplo/datos_valida_ejemplo.json" "Valida de ejemplo/informe_valida_ejemplo.html" "Valida de ejemplo"
+import sys
+
+if len(sys.argv) < 4:
+    print("Uso: python generar_informe.py <ruta_json> <ruta_output_html> <nombre_valida>")
+    print('Ejemplo: python generar_informe.py "Valida de ejemplo/datos_valida_ejemplo.json" "Valida de ejemplo/informe_valida_ejemplo.html" "Valida de ejemplo"')
+    sys.exit(1)
+
+json_path = sys.argv[1]
+output_path = sys.argv[2]
+nombre_valida = sys.argv[3]
+
+# Leer los datos del JSON
+with open(json_path, 'r', encoding='utf-8') as f:
+    datos = json.load(f)
+
+# Convertir datos a formato JavaScript
+datos_js = json.dumps(datos, ensure_ascii=False, indent=2)
+
+# Generar el HTML
+html_content = f'''<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe - {nombre_valida}</title>
+    <link rel="icon" type="image/png" href="../../../fedemoto-logo.png">
+    <style>
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            padding-top: 120px;
+            min-height: 100vh;
+        }}
+
+        /* Header fijo con menú */
+        .fixed-header {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #123E92;
+            color: white;
+            z-index: 10000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            width: 100%;
+        }}
+
+        .header-content {{
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            width: 100%;
+        }}
+
+        .logo-container {{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }}
+
+        .logo-container img {{
+            height: 50px;
+            width: auto;
+        }}
+
+        .logo-container h1 {{
+            font-size: 1.8em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }}
+
+        .nav-menu {{
+            display: flex;
+            gap: 0;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }}
+
+        .nav-menu li {{
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }}
+
+        .nav-menu > li > a {{
+            display: block;
+            padding: 12px 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 5px;
+            position: relative;
+            white-space: nowrap;
+            cursor: pointer;
+        }}
+
+        .nav-menu > li > a:hover {{
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }}
+
+        .nav-menu > li > a.active {{
+            background: #F7C31D;
+            color: #123E92;
+        }}
+
+        /* Menú desplegable */
+        .dropdown {{
+            position: relative;
+        }}
+
+        .dropdown > a::after {{
+            content: ' ▼';
+            font-size: 0.8em;
+            margin-left: 5px;
+        }}
+
+        .dropdown::before {{
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: transparent;
+            z-index: 10002;
+        }}
+
+        .dropdown-menu {{
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            z-index: 10001;
+            overflow: hidden;
+        }}
+
+        .dropdown:hover .dropdown-menu,
+        .dropdown.active .dropdown-menu {{
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }}
+
+        @keyframes fadeInDown {{
+            from {{
+                opacity: 0;
+                transform: translateY(-10px);
+            }}
+            to {{
+                opacity: 1;
+                transform: translateY(0);
+            }}
+        }}
+
+        .dropdown-menu li {{
+            margin: 0;
+        }}
+
+        .dropdown-menu a {{
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }}
+
+        .dropdown-menu a:last-child {{
+            border-bottom: none;
+        }}
+
+        .dropdown-menu a:hover {{
+            background: #f8f9fa;
+            color: #123E92;
+            padding-left: 25px;
+        }}
+
+        .dropdown-menu a.active {{
+            background: #F7C31D;
+            color: #123E92;
+            font-weight: 600;
+        }}
+
+        .container {{
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }}
+
+        .container > header {{
+            background: #123E92;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }}
+
+        .container > header h1 {{
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }}
+
+        .container > header p {{
+            font-size: 1.2em;
+            opacity: 0.9;
+        }}
+
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }}
+
+        .stat-card {{
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }}
+
+        .stat-card:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }}
+
+        .stat-card .number {{
+            font-size: 3em;
+            font-weight: bold;
+            color: #123E92;
+            margin-bottom: 10px;
+        }}
+
+        .stat-card .label {{
+            font-size: 1.1em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }}
+
+        .section {{
+            padding: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }}
+
+        .section:last-child {{
+            border-bottom: none;
+        }}
+
+        .section h2 {{
+            font-size: 2em;
+            color: #123E92;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #F7C31D;
+        }}
+
+        .chart-container {{
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }}
+
+        .bar-chart {{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 100%;
+        }}
+
+        .bar-item {{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 100%;
+        }}
+
+        .bar-label {{
+            min-width: 120px;
+            max-width: 120px;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }}
+
+        .bar-wrapper {{
+            flex: 1;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+        }}
+
+        .bar-fill {{
+            height: 100%;
+            background: #123E92;
+            border-radius: 15px;
+            transition: width 1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }}
+
+        /* Gráfica de columnas verticales */
+        .column-chart {{
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 15px;
+            min-height: 300px;
+            padding: 20px 0;
+        }}
+
+        .column-item {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 60px;
+            max-width: 120px;
+        }}
+
+        .column-wrapper {{
+            width: 100%;
+            height: 250px;
+            background: #e0e0e0;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }}
+
+        .column-fill {{
+            width: 100%;
+            background: #123E92;
+            border-radius: 5px 5px 0 0;
+            transition: height 1s ease-out;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            min-height: 20px;
+            position: relative;
+        }}
+
+        .column-label {{
+            margin-top: 10px;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.85em;
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 100%;
+        }}
+
+        .filters-container {{
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }}
+
+        .search-box {{
+            width: 100%;
+            padding: 15px;
+            font-size: 1em;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }}
+
+        .search-box:focus {{
+            outline: none;
+            border-color: #F7C31D;
+        }}
+
+        .filter-select {{
+            padding: 15px;
+            font-size: 1em;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }}
+
+        .filter-select:focus {{
+            outline: none;
+            border-color: #F7C31D;
+        }}
+
+        footer {{
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }}
+
+        @media (max-width: 768px) {{
+            body {{
+                padding: 10px;
+                padding-top: 150px;
+            }}
+
+            .header-content {{
+                flex-direction: column;
+                padding: 15px 20px;
+            }}
+
+            .logo-container {{
+                margin-bottom: 15px;
+            }}
+
+            .nav-menu {{
+                flex-direction: column;
+                width: 100%;
+                gap: 5px;
+            }}
+
+            .dropdown-menu {{
+                position: static;
+                display: none;
+                box-shadow: none;
+                border-radius: 0;
+                background: rgba(255,255,255,0.1);
+            }}
+
+            .dropdown:hover .dropdown-menu,
+            .dropdown.active .dropdown-menu {{
+                display: block;
+            }}
+
+            .dropdown-menu a {{
+                color: white;
+                padding: 10px 20px;
+            }}
+
+            .stats-grid {{
+                grid-template-columns: 1fr;
+            }}
+
+            .section {{
+                padding: 25px 15px;
+            }}
+        }}
+    </style>
+</head>
+<body>
+    <!-- Header fijo con menú -->
+    <header class="fixed-header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="../../../fedemoto-logo.png" alt="Logo FEDEMOTO">
+                <h1>Fedemoto</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../../../index.html">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#">Informes</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../../informe_2025_fedemoto.html">Informe Anual 2025</a></li>
+                            <li><a href="#">Motocross</a></li>
+                            <li><a href="#">Velocidad</a></li>
+                            <li><a href="#">GP Colombia</a></li>
+                            <li><a href="#">Velotierra</a></li>
+                            <li><a href="#">Enduro</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Resultados de válidas</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="informe_valida_ejemplo.html" class="active">Valida de ejemplo</a></li>
+                            <li><a href="#">Motocross</a></li>
+                            <li><a href="#">Velocidad</a></li>
+                            <li><a href="#">GP Colombia</a></li>
+                            <li><a href="#">Velotierra</a></li>
+                            <li><a href="#">Enduro</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Resultados generales</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Motocross</a></li>
+                            <li><a href="#">Velocidad</a></li>
+                            <li><a href="#">GP Colombia</a></li>
+                            <li><a href="#">Velotierra</a></li>
+                            <li><a href="#">Enduro</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <header>
+            <h1>
+                <img src="../../../fedemoto-logo.png" alt="FEDEMOTO Logo" style="height: 60px; vertical-align: middle; margin-right: 15px;">
+                Informe - {nombre_valida}
+            </h1>
+            <p>Análisis completo de participantes y categorías</p>
+        </header>
+
+        <div id="content">
+            <!-- Estadísticas principales -->
+            <div class="stats-grid" id="statsGrid">
+                <!-- Se llenará con JavaScript -->
+            </div>
+
+            <!-- Sección 1: Pilotos por categoría -->
+            <div class="section">
+                <h2>🏆 Pilotos por categoría</h2>
+                <div class="chart-container">
+                    <div class="bar-chart" id="categoriaChart">
+                        <!-- Se llenará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 2: Deportistas por ligas totales -->
+            <div class="section">
+                <h2>🌎 Deportistas por ligas totales</h2>
+                <div class="filters-container">
+                    <input type="text" class="search-box" id="searchLiga" placeholder="🔍 Buscar liga...">
+                    <select class="filter-select" id="filterSortLiga">
+                        <option value="cantidad-desc">Ordenar por cantidad (mayor a menor)</option>
+                        <option value="cantidad-asc">Ordenar por cantidad (menor a mayor)</option>
+                        <option value="nombre-asc">Ordenar por nombre (A-Z)</option>
+                        <option value="nombre-desc">Ordenar por nombre (Z-A)</option>
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <div class="bar-chart" id="ligasChart">
+                        <!-- Se llenará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Deportistas por ligas por categoría -->
+            <div class="section">
+                <h2>📈 Deportistas por ligas por categoría</h2>
+                <div class="filters-container" style="grid-template-columns: 1fr 1fr;">
+                    <select class="filter-select" id="selectCategoriaLiga">
+                        <option value="">Seleccione una categoría...</option>
+                    </select>
+                </div>
+                <div id="categoriaLigaChartContainer" style="display: none; margin-top: 30px;">
+                    <div class="chart-container">
+                        <div class="column-chart" id="categoriaLigaChart">
+                            <!-- Se llenará con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 4: Participación por edad -->
+            <div class="section">
+                <h2>🎂 Participación por edad</h2>
+                <div class="chart-container">
+                    <div class="column-chart" id="edadChart">
+                        <!-- Se llenará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><span class="developer">Developed by Mauricio Sánchez Aguilar - Fedemoto</span></p>
+            <p>Este proyecto es de uso interno de FEDEMOTO.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Datos incrustados directamente para evitar problemas de CORS
+        const datos = {datos_js};
+
+        // Función para corregir ortografía de departamentos
+        function corregirOrtografiaDepartamento(nombre) {{
+            const correcciones = {{
+                'NARINO': 'Nariño',
+                'QUINDIO': 'Quindío',
+                'BOGOTA': 'Bogotá',
+                'VALLE': 'Valle del Cauca',
+                'ANTIOQUIA': 'Antioquia',
+                'ARAUCA': 'Arauca',
+                'CALDAS': 'Caldas',
+                'CASANARE': 'Casanare',
+                'CAUCA': 'Cauca',
+                'CESAR': 'Cesar',
+                'CUNDINAMARCA': 'Cundinamarca',
+                'HUILA': 'Huila',
+                'META': 'Meta',
+                'PUTUMAYO': 'Putumayo',
+                'RISARALDA': 'Risaralda',
+                'SANTANDER': 'Santander',
+                'TOLIMA': 'Tolima'
+            }};
+            return correcciones[nombre] || nombre;
+        }}
+
+        document.addEventListener('DOMContentLoaded', function() {{
+            renderizarEstadisticas();
+            renderizarCategorias();
+            renderizarLigas();
+            renderizarCategoriaLiga();
+            renderizarEdad();
+        }});
+
+        function renderizarEstadisticas() {{
+            const statsGrid = document.getElementById('statsGrid');
+            const totalCategorias = Object.keys(datos.pilotos_por_categoria).length;
+            const totalLigas = Object.keys(datos.deportistas_por_liga_total).length;
+
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="number">${{datos.total_pilotos_unicos}}</div>
+                    <div class="label">Licencias Únicas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${{datos.total_participaciones}}</div>
+                    <div class="label">Total Participaciones</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${{totalCategorias}}</div>
+                    <div class="label">Categorías</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">${{totalLigas}}</div>
+                    <div class="label">Ligas</div>
+                </div>
+            `;
+        }}
+
+        function renderizarCategorias() {{
+            const chart = document.getElementById('categoriaChart');
+            const categorias = Object.entries(datos.pilotos_por_categoria)
+                .sort((a, b) => b[1] - a[1]);
+
+            const maxValue = Math.max(...categorias.map(([, v]) => v), 1);
+
+            chart.innerHTML = categorias.map(([categoria, cantidad]) => {{
+                const porcentaje = (cantidad / maxValue) * 100;
+                return `
+                    <div class="bar-item">
+                        <div class="bar-label">${{categoria}}</div>
+                        <div class="bar-wrapper">
+                            <div class="bar-fill" style="width: ${{porcentaje}}%">
+                                ${{cantidad}}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }}).join('');
+        }}
+
+        function renderizarLigas() {{
+            const chart = document.getElementById('ligasChart');
+            let ligas = Object.entries(datos.deportistas_por_liga_total);
+            let sortBy = 'cantidad-desc';
+
+            function aplicarFiltros() {{
+                const search = document.getElementById('searchLiga').value.toLowerCase();
+                sortBy = document.getElementById('filterSortLiga').value;
+
+                let ligasFiltradas = ligas.filter(([liga]) => {{
+                    const ligaCorregida = corregirOrtografiaDepartamento(liga);
+                    return ligaCorregida.toLowerCase().includes(search) || liga.toLowerCase().includes(search);
+                }});
+
+                ligasFiltradas.sort((a, b) => {{
+                    switch(sortBy) {{
+                        case 'cantidad-desc':
+                            return b[1] - a[1];
+                        case 'cantidad-asc':
+                            return a[1] - b[1];
+                        case 'nombre-asc':
+                            return a[0].localeCompare(b[0]);
+                        case 'nombre-desc':
+                            return b[0].localeCompare(a[0]);
+                        default:
+                            return b[1] - a[1];
+                    }}
+                }});
+
+                const maxValue = Math.max(...ligasFiltradas.map(([, v]) => v), 1);
+
+                chart.innerHTML = ligasFiltradas.map(([liga, cantidad]) => {{
+                    const porcentaje = (cantidad / maxValue) * 100;
+                    const ligaCorregida = corregirOrtografiaDepartamento(liga);
+                    return `
+                        <div class="bar-item">
+                            <div class="bar-label">${{ligaCorregida}}</div>
+                            <div class="bar-wrapper">
+                                <div class="bar-fill" style="width: ${{porcentaje}}%">
+                                    ${{cantidad}}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }}).join('');
+            }}
+
+            document.getElementById('searchLiga').addEventListener('input', aplicarFiltros);
+            document.getElementById('filterSortLiga').addEventListener('change', aplicarFiltros);
+            aplicarFiltros();
+        }}
+
+        function renderizarCategoriaLiga() {{
+            const categoriaSelect = document.getElementById('selectCategoriaLiga');
+            const chartContainer = document.getElementById('categoriaLigaChartContainer');
+            const chart = document.getElementById('categoriaLigaChart');
+
+            const categorias = Object.keys(datos.deportistas_por_liga_categoria).sort();
+            categoriaSelect.innerHTML = '<option value="">Seleccione una categoría...</option>' +
+                categorias.map(cat => 
+                    `<option value="${{cat}}">${{cat}}</option>`
+                ).join('');
+
+            function mostrarGrafico() {{
+                const categoria = categoriaSelect.value;
+
+                if (!categoria) {{
+                    chartContainer.style.display = 'none';
+                    return;
+                }}
+
+                const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {{}})
+                    .sort((a, b) => b[1] - a[1]);
+
+                if (ligas.length === 0) {{
+                    chartContainer.style.display = 'none';
+                    return;
+                }}
+
+                const maxValue = Math.max(...ligas.map(([, v]) => v), 1);
+                const maxHeight = 250; // Altura máxima de las columnas
+
+                chart.innerHTML = ligas.map(([liga, cantidad]) => {{
+                    const altura = (cantidad / maxValue) * maxHeight;
+                    const ligaCorregida = corregirOrtografiaDepartamento(liga);
+                    return `
+                        <div class="column-item">
+                            <div class="column-wrapper">
+                                <div class="column-fill" style="height: ${{altura}}px">
+                                    ${{cantidad}}
+                                </div>
+                            </div>
+                            <div class="column-label">${{ligaCorregida}}</div>
+                        </div>
+                    `;
+                }}).join('');
+
+                chartContainer.style.display = 'block';
+            }}
+
+            categoriaSelect.addEventListener('change', mostrarGrafico);
+        }}
+
+        function renderizarEdad() {{
+            const chart = document.getElementById('edadChart');
+            const edades = Object.entries(datos.participaciones_por_edad || {{}});
+            
+            if (edades.length === 0) {{
+                chart.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">No hay datos de edad disponibles</p>';
+                return;
+            }}
+
+            // Ordenar por orden de edad (rango de 5 años, empezando desde 1-5)
+            const ordenEdades = [
+                "0 años", "1-5 años", "6-10 años", "11-15 años", "16-20 años", 
+                "21-25 años", "26-30 años", "31-35 años", "36-40 años",
+                "41-45 años", "46-50 años", "51-55 años", "56-60 años",
+                "61-65 años", "66+ años"
+            ];
+            
+            edades.sort((a, b) => {{
+                const idxA = ordenEdades.indexOf(a[0]);
+                const idxB = ordenEdades.indexOf(b[0]);
+                if (idxA === -1 && idxB === -1) return a[0].localeCompare(b[0]);
+                if (idxA === -1) return 1;
+                if (idxB === -1) return -1;
+                return idxA - idxB;
+            }});
+
+            const maxValue = Math.max(...edades.map(([, v]) => v), 1);
+            const maxHeight = 250;
+
+            chart.innerHTML = edades.map(([rango, cantidad]) => {{
+                const altura = (cantidad / maxValue) * maxHeight;
+                return `
+                    <div class="column-item">
+                        <div class="column-wrapper">
+                            <div class="column-fill" style="height: ${{altura}}px">
+                                ${{cantidad}}
+                            </div>
+                        </div>
+                        <div class="column-label">${{rango}}</div>
+                    </div>
+                `;
+            }}).join('');
+        }}
+
+        // Manejar clics en menús desplegables para móviles
+        document.addEventListener('DOMContentLoaded', function() {{
+            const dropdowns = document.querySelectorAll('.dropdown > a');
+
+            dropdowns.forEach(dropdown => {{
+                dropdown.addEventListener('click', function(e) {{
+                    if (window.innerWidth <= 768) {{
+                        e.preventDefault();
+                        const parent = this.parentElement;
+                        const isActive = parent.classList.contains('active');
+
+                        document.querySelectorAll('.dropdown').forEach(d => {{
+                            if (d !== parent) {{
+                                d.classList.remove('active');
+                            }}
+                        }});
+
+                        if (isActive) {{
+                            parent.classList.remove('active');
+                        }} else {{
+                            parent.classList.add('active');
+                        }}
+                    }}
+                }});
+            }});
+        }});
+    </script>
+</body>
+</html>
+'''
+
+# Guardar el HTML
+with open(output_path, 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"HTML generado en: {output_path}")
+
