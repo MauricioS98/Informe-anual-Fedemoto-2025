@@ -147,17 +147,40 @@
                     const parent = this.parentElement;
                     const isActive = parent.classList.contains('active');
                     
-                    // Cerrar todos los demás dropdowns del mismo nivel
-                    const siblings = Array.from(parent.parentElement.children);
-                    siblings.forEach(sibling => {
-                        if (sibling !== parent && sibling.classList.contains('dropdown')) {
-                            sibling.classList.remove('active');
-                        }
-                    });
+                    // Determinar si es un dropdown principal (directo hijo de .nav-menu)
+                    const isMainDropdown = parent.parentElement.classList.contains('nav-menu');
                     
-                    // Toggle del dropdown actual
+                    if (isMainDropdown) {
+                        // Si es un dropdown principal, cerrar todos los demás dropdowns principales
+                        const mainDropdowns = document.querySelectorAll('.nav-menu > .dropdown');
+                        mainDropdowns.forEach(mainDropdown => {
+                            if (mainDropdown !== parent) {
+                                mainDropdown.classList.remove('active');
+                                // También cerrar todos los sub-dropdowns dentro de los otros principales
+                                mainDropdown.querySelectorAll('.dropdown').forEach(subDropdown => {
+                                    subDropdown.classList.remove('active');
+                                });
+                            }
+                        });
+                    } else {
+                        // Si es un sub-dropdown, cerrar solo los otros sub-dropdowns del mismo nivel
+                        const siblings = Array.from(parent.parentElement.children);
+                        siblings.forEach(sibling => {
+                            if (sibling !== parent && sibling.classList.contains('dropdown')) {
+                                sibling.classList.remove('active');
+                            }
+                        });
+                    }
+                    
+                    // Toggle del dropdown actual (abrir si está cerrado, cerrar si está abierto)
                     if (isActive) {
                         parent.classList.remove('active');
+                        // Si se cierra un dropdown principal, cerrar también todos sus sub-dropdowns
+                        if (isMainDropdown) {
+                            parent.querySelectorAll('.dropdown').forEach(subDropdown => {
+                                subDropdown.classList.remove('active');
+                            });
+                        }
                     } else {
                         parent.classList.add('active');
                     }
@@ -165,12 +188,20 @@
             });
         });
 
-        // Cerrar dropdowns al hacer clic fuera
+        // Cerrar dropdowns al hacer clic fuera (solo en móvil)
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown')) {
-                document.querySelectorAll('.dropdown').forEach(d => {
-                    d.classList.remove('active');
-                });
+            if (window.innerWidth <= 768) {
+                // No cerrar si el clic fue en el botón hamburguesa o en el overlay
+                const menuToggle = document.querySelector('.menu-toggle');
+                const menuOverlay = document.getElementById('menu-overlay');
+                const isClickOnToggle = menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle);
+                const isClickOnOverlay = menuOverlay && (menuOverlay.contains(e.target) || e.target === menuOverlay);
+                
+                if (!isClickOnToggle && !isClickOnOverlay && !e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown').forEach(d => {
+                        d.classList.remove('active');
+                    });
+                }
             }
         });
     }
