@@ -1,141 +1,23 @@
-# -*- coding: utf-8 -*-
-"""
-Script para generar informes HTML a partir de datos JSON
-Asegura el manejo correcto de caracteres UTF-8 (acentos, ñ, etc.)
-"""
-
-import json
-import os
-import sys
-import re
-import glob
-
-# Configurar encoding UTF-8 para stdout en Windows
-if sys.platform == 'win32':
-    import io
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-
-# Uso: python generar_informe.py <ruta_json> <ruta_output_html> <nombre_valida>
-# Ejemplo: python generar_informe.py "Valida de ejemplo/datos_valida_ejemplo.json" "Valida de ejemplo/informe_valida_ejemplo.html" "Valida de ejemplo"
-
-if len(sys.argv) < 4:
-    print("Uso: python generar_informe.py <ruta_json> <ruta_output_html> <nombre_valida>")
-    print('Ejemplo: python generar_informe.py "Valida de ejemplo/datos_valida_ejemplo.json" "Valida de ejemplo/informe_valida_ejemplo.html" "Valida de ejemplo"')
-    sys.exit(1)
-
-json_path = sys.argv[1]
-output_path = sys.argv[2]
-# Decodificar nombre_valida correctamente para UTF-8
-nombre_valida = sys.argv[3]
-try:
-    # Intentar decodificar desde la codificación del sistema
-    nombre_valida = nombre_valida.encode('latin-1').decode('utf-8')
-except:
-    try:
-        # Si falla, intentar directamente
-        nombre_valida = nombre_valida.encode('cp1252').decode('utf-8')
-    except:
-        # Si todo falla, usar tal cual
-        pass
-
-# Calcular la profundidad del archivo de salida para las rutas relativas
-# output_path puede ser relativo a Informes/ o incluir "Informes/" en el path
-# Normalizar el path para trabajar con rutas relativas desde Informes/
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Si output_path incluye "Informes/", removerlo para trabajar relativo a Informes/
-output_path_norm = output_path.replace('\\', '/')
-if 'Informes/' in output_path_norm:
-    # Extraer la parte después de "Informes/"
-    parts = output_path_norm.split('Informes/')
-    if len(parts) > 1:
-        output_path_rel = parts[-1]
-    else:
-        output_path_rel = output_path_norm
-else:
-    output_path_rel = output_path_norm
-
-output_dir = os.path.dirname(output_path_rel)
-# Contar cuántos niveles hay desde Informes/ hasta el archivo
-# Si output_path_rel es "Modalidad de ejemplo/informe.html", output_dir es "Modalidad de ejemplo"
-# Necesitamos subir depth niveles desde el archivo hasta Informes/, y luego 1 más hasta la raíz
-if output_dir:
-    # Contar partes del directorio (normalizar separadores)
-    output_dir_norm = output_dir.replace('\\', '/')
-    depth = len([p for p in output_dir_norm.split('/') if p]) if output_dir_norm else 0
-else:
-    depth = 0
-
-# Calcular niveles hasta la raíz:
-# - Si depth = 0: archivo está en Informes/, necesitamos subir 1 nivel (../)
-# - Si depth = 1: archivo está en Informes/Modalidad/, necesitamos subir 2 niveles (../../)
-depth_to_root = depth + 1
-
-# Extraer modalidad y subcarpeta para construir el título del informe
-# output_dir_norm contiene la ruta relativa desde Informes/, ej: "Velocidad" o "Motocross/Primer semestre"
-partes_directorio = [p for p in output_dir_norm.split('/') if p] if output_dir_norm else []
-
-# Determinar modalidad (primera parte del directorio)
-modalidad = partes_directorio[0].lower() if len(partes_directorio) > 0 else ""
-
-# Determinar subcarpeta (segunda parte del directorio, si existe)
-subcarpeta = partes_directorio[1].lower() if len(partes_directorio) > 1 else ""
-
-# Construir el título del informe
-# Formato: "Campeonato nacional de [modalidad] [subcarpeta si existe] - Informe [nombre del informe]"
-if subcarpeta:
-    titulo_informe = f"Campeonato nacional de {modalidad} {subcarpeta} - Informe {nombre_valida}"
-else:
-    titulo_informe = f"Campeonato nacional de {modalidad} - Informe {nombre_valida}"
-
-# Generar las rutas relativas
-ruta_inicio = '../' * depth_to_root + 'index.html'
-ruta_logo = '../' * depth_to_root + 'fedemoto-logo.png'
-# Ruta al script de carga del menú (desde el archivo generado hasta la raíz)
-ruta_load_menu = '../' * depth_to_root + 'load-menu.js'
-# Para informe_2025_fedemoto.html, está en Informes/, así que desde Informes/Modalidad/ es ../informe_2025_fedemoto.html
-# Desde Informes/ es informe_2025_fedemoto.html (mismo nivel)
-if depth == 0:
-    ruta_informe_2025 = 'informe_2025_fedemoto.html'
-else:
-    ruta_informe_2025 = '../' * (depth_to_root - 1) + 'informe_2025_fedemoto.html'
-
-# Leer los datos del JSON con encoding UTF-8
-try:
-    with open(json_path, 'r', encoding='utf-8') as f:
-        datos = json.load(f)
-except UnicodeDecodeError:
-    # Si falla, intentar con diferentes encodings
-    with open(json_path, 'r', encoding='latin-1') as f:
-        datos = json.load(f)
-except Exception as e:
-    print(f"Error al leer el archivo JSON: {e}")
-    sys.exit(1)
-
-# Convertir datos a formato JavaScript
-datos_js = json.dumps(datos, ensure_ascii=False, indent=2)
-
-# Generar el HTML
-html_content = f'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{titulo_informe}</title>
-    <link rel="icon" type="image/png" href="{ruta_logo}">
+    <title>Campeonato nacional de gp colombia - Informe III VAL copa dream expirience</title>
+    <link rel="icon" type="image/png" href="../../fedemoto-logo.png">
     <!-- Librerías para generar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <!-- SweetAlert2 para modales -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        * {{
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }}
+        }
 
-        body {{
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #ffffff;
             color: #333;
@@ -143,10 +25,10 @@ html_content = f'''<!DOCTYPE html>
             padding: 20px;
             padding-top: 120px;
             min-height: 100vh;
-        }}
+        }
 
         /* Header fijo con menú */
-        .fixed-header {{
+        .fixed-header {
             position: fixed;
             top: 0;
             left: 0;
@@ -156,9 +38,9 @@ html_content = f'''<!DOCTYPE html>
             z-index: 10000;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             width: 100%;
-        }}
+        }
 
-        .header-content {{
+        .header-content {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
@@ -166,40 +48,40 @@ html_content = f'''<!DOCTYPE html>
             justify-content: space-between;
             padding: 15px 30px;
             width: 100%;
-        }}
+        }
 
-        .logo-container {{
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
-        }}
+        }
 
-        .logo-container img {{
+        .logo-container img {
             height: 50px;
             width: auto;
-        }}
+        }
 
-        .logo-container h1 {{
+        .logo-container h1 {
             font-size: 1.8em;
             margin: 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }}
+        }
 
-        .nav-menu {{
+        .nav-menu {
             display: flex;
             gap: 0;
             list-style: none;
             margin: 0;
             padding: 0;
-        }}
+        }
 
-        .nav-menu li {{
+        .nav-menu li {
             margin: 0;
             padding: 0;
             position: relative;
-        }}
+        }
 
-        .nav-menu > li > a {{
+        .nav-menu > li > a {
             display: block;
             padding: 12px 25px;
             color: white;
@@ -211,31 +93,31 @@ html_content = f'''<!DOCTYPE html>
             position: relative;
             white-space: nowrap;
             cursor: pointer;
-        }}
+        }
 
-        .nav-menu > li > a:hover {{
+        .nav-menu > li > a:hover {
             background: rgba(255,255,255,0.1);
             transform: translateY(-2px);
-        }}
+        }
 
-        .nav-menu > li > a.active {{
+        .nav-menu > li > a.active {
             background: #F7C31D;
             color: #123E92;
-        }}
+        }
 
         /* Menú desplegable */
-        .dropdown {{
+        .dropdown {
             position: relative;
-        }}
+        }
 
-        .dropdown > a::after {{
+        .dropdown > a::after {
             content: ' ▼';
             font-size: 0.8em;
             margin-left: 5px;
-        }}
+        }
 
         /* Puente invisible para mantener el hover activo */
-        .dropdown::before {{
+        .dropdown::before {
             content: '';
             position: absolute;
             top: 100%;
@@ -244,9 +126,9 @@ html_content = f'''<!DOCTYPE html>
             height: 5px;
             background: transparent;
             z-index: 10002;
-        }}
+        }
 
-        .dropdown-menu {{
+        .dropdown-menu {
             display: none;
             position: absolute;
             top: calc(100% + 5px);
@@ -261,15 +143,15 @@ html_content = f'''<!DOCTYPE html>
             padding: 0;
             margin: 0;
             overflow: visible;
-        }}
+        }
         
         /* Submenús dentro de dropdowns (para Motocross, Velotierra, etc.) */
-        .dropdown-menu .dropdown {{
+        .dropdown-menu .dropdown {
             position: relative;
-        }}
+        }
         
         /* Puente invisible para submenús anidados */
-        .dropdown-menu .dropdown::before {{
+        .dropdown-menu .dropdown::before {
             content: '';
             position: absolute;
             top: 0;
@@ -278,14 +160,14 @@ html_content = f'''<!DOCTYPE html>
             height: 100%;
             background: transparent;
             z-index: 10004;
-        }}
+        }
         
-        .dropdown-menu .dropdown > a {{
+        .dropdown-menu .dropdown > a {
             position: relative;
             padding-right: 35px;
-        }}
+        }
         
-        .dropdown-menu .dropdown > a::after {{
+        .dropdown-menu .dropdown > a::after {
             content: ' ▶';
             position: absolute;
             right: 15px;
@@ -294,9 +176,9 @@ html_content = f'''<!DOCTYPE html>
             font-size: 0.8em;
             margin: 0;
             float: none;
-        }}
+        }
         
-        .dropdown-menu .dropdown .dropdown-menu {{
+        .dropdown-menu .dropdown .dropdown-menu {
             display: none !important;
             position: absolute;
             left: 100%;
@@ -308,44 +190,44 @@ html_content = f'''<!DOCTYPE html>
             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
             border-radius: 8px;
             overflow: visible;
-        }}
+        }
         
         /* En "Resultados generales", mostrar submenús a la izquierda */
-        .nav-menu > .dropdown:nth-child(4) .dropdown-menu > .dropdown > .dropdown-menu {{
+        .nav-menu > .dropdown:nth-child(4) .dropdown-menu > .dropdown > .dropdown-menu {
             left: auto;
             right: 100%;
             margin-left: 0;
             margin-right: 5px;
-        }}
+        }
         
-        .dropdown-menu .dropdown:hover > .dropdown-menu {{
+        .dropdown-menu .dropdown:hover > .dropdown-menu {
             display: block !important;
-        }}
+        }
 
         /* Solo aplicar hover al primer nivel de dropdown (no a submenús anidados) */
         .nav-menu > .dropdown:hover > .dropdown-menu,
-        .nav-menu > .dropdown.active > .dropdown-menu {{
+        .nav-menu > .dropdown.active > .dropdown-menu {
             display: block;
             animation: fadeInDown 0.3s ease;
-        }}
+        }
 
-        @keyframes fadeInDown {{
-            from {{
+        @keyframes fadeInDown {
+            from {
                 opacity: 0;
                 transform: translateY(-10px);
-            }}
-            to {{
+            }
+            to {
                 opacity: 1;
                 transform: translateY(0);
-            }}
-        }}
+            }
+        }
 
-        .dropdown-menu li {{
+        .dropdown-menu li {
             margin: 0;
             position: relative;
-        }}
+        }
 
-        .dropdown-menu a {{
+        .dropdown-menu a {
             display: block;
             padding: 12px 20px;
             color: #333;
@@ -353,145 +235,145 @@ html_content = f'''<!DOCTYPE html>
             font-size: 1em;
             transition: all 0.2s;
             border-bottom: 1px solid #f0f0f0;
-        }}
+        }
 
-        .dropdown-menu a:last-child {{
+        .dropdown-menu a:last-child {
             border-bottom: none;
-        }}
+        }
 
-        .dropdown-menu a:hover {{
+        .dropdown-menu a:hover {
             background: #f8f9fa;
             color: #123E92;
-        }}
+        }
         
         /* Los elementos con submenú mantienen el padding al hacer hover */
-        .dropdown-menu .dropdown > a:hover {{
+        .dropdown-menu .dropdown > a:hover {
             padding-left: 20px;
-        }}
+        }
 
-        .dropdown-menu a.active {{
+        .dropdown-menu a.active {
             background: #F7C31D;
             color: #123E92;
             font-weight: 600;
-        }}
+        }
 
-        .dropdown.active > a {{
+        .dropdown.active > a {
             background: rgba(255,255,255,0.15);
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
-        }}
+        }
 
-        .container > header {{
+        .container > header {
             background: #123E92;
             color: white;
             padding: 40px;
             text-align: center;
-        }}
+        }
 
-        .container > header h1 {{
+        .container > header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }}
+        }
 
-        .container > header p {{
+        .container > header p {
             font-size: 1.2em;
             opacity: 0.9;
-        }}
+        }
 
-        .stats-grid {{
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             padding: 30px;
             background: #f8f9fa;
-        }}
+        }
 
-        .stat-card {{
+        .stat-card {
             background: white;
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
-        }}
+        }
 
-        .stat-card:hover {{
+        .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }}
+        }
 
-        .stat-card .number {{
+        .stat-card .number {
             font-size: 3em;
             font-weight: bold;
             color: #123E92;
             margin-bottom: 10px;
-        }}
+        }
 
-        .stat-card .label {{
+        .stat-card .label {
             font-size: 1.1em;
             color: #666;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }}
+        }
 
-        .section {{
+        .section {
             padding: 40px;
             border-bottom: 1px solid #e0e0e0;
-        }}
+        }
 
-        .section:last-child {{
+        .section:last-child {
             border-bottom: none;
-        }}
+        }
 
-        .section h2 {{
+        .section h2 {
             font-size: 2em;
             color: #123E92;
             margin-bottom: 25px;
             padding-bottom: 15px;
             border-bottom: 3px solid #F7C31D;
-        }}
+        }
 
-        .chart-container {{
+        .chart-container {
             background: white;
             padding: 20px;
             border-radius: 10px;
             margin-top: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow-x: auto;
-        }}
+        }
 
-        .bar-chart {{
+        .bar-chart {
             display: flex;
             flex-direction: column;
             gap: 10px;
             min-width: 100%;
-        }}
+        }
 
-        .bar-item {{
+        .bar-item {
             display: flex;
             align-items: center;
             gap: 15px;
             min-width: 100%;
-        }}
+        }
 
-        .bar-label {{
+        .bar-label {
             min-width: 120px;
             max-width: 120px;
             font-weight: 500;
             color: #333;
             font-size: 0.9em;
             flex-shrink: 0;
-        }}
+        }
 
-        .bar-wrapper {{
+        .bar-wrapper {
             flex: 1;
             height: 30px;
             background: #e0e0e0;
@@ -500,9 +382,9 @@ html_content = f'''<!DOCTYPE html>
             position: relative;
             display: flex;
             align-items: flex-end;
-        }}
+        }
 
-        .bar-fill {{
+        .bar-fill {
             height: 100%;
             background: #123E92;
             border-radius: 15px;
@@ -514,10 +396,10 @@ html_content = f'''<!DOCTYPE html>
             color: white;
             font-weight: bold;
             font-size: 0.9em;
-        }}
+        }
 
         /* Gráfica de columnas verticales */
-        .column-chart {{
+        .column-chart {
             display: flex;
             flex-direction: row;
             align-items: flex-end;
@@ -525,18 +407,18 @@ html_content = f'''<!DOCTYPE html>
             gap: 15px;
             min-height: 300px;
             padding: 20px 0;
-        }}
+        }
 
-        .column-item {{
+        .column-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             flex: 1;
             min-width: 60px;
             max-width: 120px;
-        }}
+        }
 
-        .column-wrapper {{
+        .column-wrapper {
             width: 100%;
             height: 250px;
             background: #e0e0e0;
@@ -545,9 +427,9 @@ html_content = f'''<!DOCTYPE html>
             display: flex;
             align-items: flex-end;
             justify-content: center;
-        }}
+        }
 
-        .column-fill {{
+        .column-fill {
             width: 100%;
             background: #123E92;
             border-radius: 5px 5px 0 0;
@@ -561,9 +443,9 @@ html_content = f'''<!DOCTYPE html>
             font-size: 0.9em;
             min-height: 20px;
             position: relative;
-        }}
+        }
 
-        .column-label {{
+        .column-label {
             margin-top: 10px;
             font-weight: 500;
             color: #333;
@@ -571,16 +453,16 @@ html_content = f'''<!DOCTYPE html>
             text-align: center;
             word-wrap: break-word;
             max-width: 100%;
-        }}
+        }
 
-        .filters-container {{
+        .filters-container {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 15px;
             margin-bottom: 20px;
-        }}
+        }
 
-        .search-box {{
+        .search-box {
             width: 100%;
             padding: 15px;
             font-size: 1em;
@@ -588,14 +470,14 @@ html_content = f'''<!DOCTYPE html>
             border-radius: 10px;
             transition: border-color 0.3s;
             box-sizing: border-box;
-        }}
+        }
 
-        .search-box:focus {{
+        .search-box:focus {
             outline: none;
             border-color: #F7C31D;
-        }}
+        }
 
-        .filter-select {{
+        .filter-select {
             padding: 15px;
             font-size: 1em;
             border: 2px solid #e0e0e0;
@@ -605,14 +487,14 @@ html_content = f'''<!DOCTYPE html>
             transition: border-color 0.3s;
             width: 100%;
             box-sizing: border-box;
-        }}
+        }
 
-        .filter-select:focus {{
+        .filter-select:focus {
             outline: none;
             border-color: #F7C31D;
-        }}
+        }
 
-        footer {{
+        footer {
             background: #f8f9fa;
             padding: 30px 40px;
             text-align: center;
@@ -620,55 +502,55 @@ html_content = f'''<!DOCTYPE html>
             color: #666;
             font-size: 0.9em;
             line-height: 1.8;
-        }}
+        }
 
-        @media (max-width: 768px) {{
-            body {{
+        @media (max-width: 768px) {
+            body {
                 padding: 10px;
                 padding-top: 150px;
-            }}
+            }
 
-            .header-content {{
+            .header-content {
                 flex-direction: column;
                 padding: 15px 20px;
-            }}
+            }
 
-            .logo-container {{
+            .logo-container {
                 margin-bottom: 15px;
-            }}
+            }
 
-            .nav-menu {{
+            .nav-menu {
                 flex-direction: column;
                 width: 100%;
                 gap: 5px;
-            }}
+            }
 
-            .dropdown-menu {{
+            .dropdown-menu {
                 position: static;
                 display: none;
                 box-shadow: none;
                 border-radius: 0;
                 background: rgba(255,255,255,0.1);
-            }}
+            }
 
             .nav-menu > .dropdown:hover > .dropdown-menu,
-            .nav-menu > .dropdown.active > .dropdown-menu {{
+            .nav-menu > .dropdown.active > .dropdown-menu {
                 display: block;
-            }}
+            }
 
-            .dropdown-menu a {{
+            .dropdown-menu a {
                 color: white;
                 padding: 10px 20px;
-            }}
+            }
 
-            .stats-grid {{
+            .stats-grid {
                 grid-template-columns: 1fr;
-            }}
+            }
 
-            .section {{
+            .section {
                 padding: 25px 15px;
-            }}
-        }}
+            }
+        }
     </style>
 </head>
 <body>
@@ -678,8 +560,8 @@ html_content = f'''<!DOCTYPE html>
     <div class="container">
         <header>
             <h1>
-                <img src="{ruta_logo.replace(chr(92), '/')}" alt="FEDEMOTO Logo" style="height: 60px; vertical-align: middle; margin-right: 15px;">
-                {titulo_informe}
+                <img src="../../fedemoto-logo.png" alt="FEDEMOTO Logo" style="height: 60px; vertical-align: middle; margin-right: 15px;">
+                Campeonato nacional de gp colombia - Informe III VAL copa dream expirience
             </h1>
             <p>Análisis completo de participantes y categorías</p>
         </header>
@@ -757,11 +639,620 @@ html_content = f'''<!DOCTYPE html>
 
     <script>
         // Datos incrustados directamente para evitar problemas de CORS
-        const datos = {datos_js};
+        const datos = {
+  "total_pilotos_unicos": 232,
+  "total_participaciones": 464,
+  "pilotos_por_categoria": {
+    "115 CC ELITE": 42,
+    "115 CC INFANTIL": 14,
+    "115 CC INICIO": 29,
+    "115 CC MAS": 15,
+    "150 CC": 31,
+    "150 CC INICIO": 18,
+    "150 CC MAS": 15,
+    "200 CC 2T": 21,
+    "220 CC 4T": 29,
+    "CRS EXP": 26,
+    "CRS NOV": 41,
+    "FEMENINA": 7,
+    "LGP MOB": 4,
+    "MINI 190": 5,
+    "MINI GP": 10,
+    "MINIMOTARD": 9,
+    "R15": 17,
+    "SS 1000": 5,
+    "SS 600": 10,
+    "STR 250": 37,
+    "SUPER BIKE": 16,
+    "SUPERMOT EXPERTOS": 18,
+    "SUPERMOT NOVATOS": 21,
+    "SUPERSPORT": 9,
+    "X BIKE A": 9,
+    "X BIKE B": 6
+  },
+  "deportistas_por_liga_total": {
+    "ANTIOQUIA": 41,
+    "BOGOTA": 39,
+    "CALDAS": 5,
+    "CAUCA": 4,
+    "CESAR": 12,
+    "CUNDINAMARCA": 26,
+    "HUILA": 7,
+    "META": 7,
+    "MEXICO": 1,
+    "NARINO": 2,
+    "PUTUMAYO": 7,
+    "QUINDIO": 7,
+    "SANTANDER": 12,
+    "TOLIMA": 51,
+    "VALLE": 11
+  },
+  "deportistas_por_liga_categoria": {
+    "115 CC ELITE": {
+      "ANTIOQUIA": 7,
+      "BOGOTA": 1,
+      "CALDAS": 2,
+      "CAUCA": 2,
+      "CESAR": 2,
+      "CUNDINAMARCA": 4,
+      "META": 5,
+      "NARINO": 1,
+      "PUTUMAYO": 2,
+      "QUINDIO": 3,
+      "SANTANDER": 2,
+      "TOLIMA": 7,
+      "VALLE": 4
+    },
+    "115 CC INFANTIL": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 1,
+      "CESAR": 5,
+      "CUNDINAMARCA": 1,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2,
+      "VALLE": 2
+    },
+    "115 CC INICIO": {
+      "ANTIOQUIA": 3,
+      "BOGOTA": 1,
+      "CESAR": 5,
+      "CUNDINAMARCA": 3,
+      "HUILA": 2,
+      "META": 2,
+      "PUTUMAYO": 2,
+      "QUINDIO": 3,
+      "SANTANDER": 3,
+      "TOLIMA": 1,
+      "VALLE": 4
+    },
+    "115 CC MAS": {
+      "ANTIOQUIA": 6,
+      "CALDAS": 1,
+      "CAUCA": 1,
+      "CUNDINAMARCA": 2,
+      "NARINO": 1,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2
+    },
+    "150 CC": {
+      "ANTIOQUIA": 5,
+      "BOGOTA": 1,
+      "CALDAS": 1,
+      "CAUCA": 1,
+      "CUNDINAMARCA": 5,
+      "META": 5,
+      "NARINO": 1,
+      "PUTUMAYO": 3,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 4,
+      "VALLE": 3
+    },
+    "150 CC INICIO": {
+      "ANTIOQUIA": 2,
+      "BOGOTA": 2,
+      "CESAR": 2,
+      "CUNDINAMARCA": 1,
+      "HUILA": 1,
+      "META": 2,
+      "PUTUMAYO": 1,
+      "QUINDIO": 3,
+      "SANTANDER": 2,
+      "TOLIMA": 1,
+      "VALLE": 1
+    },
+    "150 CC MAS": {
+      "ANTIOQUIA": 3,
+      "CALDAS": 2,
+      "CUNDINAMARCA": 2,
+      "NARINO": 1,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 5
+    },
+    "200 CC 2T": {
+      "ANTIOQUIA": 3,
+      "CAUCA": 2,
+      "CUNDINAMARCA": 3,
+      "META": 2,
+      "NARINO": 1,
+      "PUTUMAYO": 3,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2,
+      "VALLE": 3
+    },
+    "220 CC 4T": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 3,
+      "CAUCA": 2,
+      "CUNDINAMARCA": 7,
+      "HUILA": 1,
+      "META": 2,
+      "SANTANDER": 1,
+      "TOLIMA": 11,
+      "VALLE": 1
+    },
+    "CRS EXP": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 4,
+      "CUNDINAMARCA": 8,
+      "HUILA": 1,
+      "META": 4,
+      "PUTUMAYO": 1,
+      "TOLIMA": 6,
+      "VALLE": 1
+    },
+    "CRS NOV": {
+      "ANTIOQUIA": 7,
+      "BOGOTA": 5,
+      "CAUCA": 1,
+      "CESAR": 1,
+      "CUNDINAMARCA": 8,
+      "HUILA": 3,
+      "PUTUMAYO": 1,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 12,
+      "VALLE": 1
+    },
+    "FEMENINA": {
+      "BOGOTA": 2,
+      "CUNDINAMARCA": 3,
+      "SANTANDER": 1,
+      "TOLIMA": 1
+    },
+    "LGP MOB": {
+      "BOGOTA": 1,
+      "MEXICO": 1,
+      "TOLIMA": 1,
+      "VALLE": 1
+    },
+    "MINI 190": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 2,
+      "CESAR": 1,
+      "TOLIMA": 1
+    },
+    "MINI GP": {
+      "ANTIOQUIA": 2,
+      "BOGOTA": 1,
+      "CESAR": 3,
+      "META": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2
+    },
+    "MINIMOTARD": {
+      "ANTIOQUIA": 5,
+      "CALDAS": 2,
+      "SANTANDER": 1,
+      "VALLE": 1
+    },
+    "R15": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 4,
+      "CAUCA": 1,
+      "HUILA": 3,
+      "SANTANDER": 2,
+      "TOLIMA": 6
+    },
+    "SS 1000": {
+      "ANTIOQUIA": 2,
+      "BOGOTA": 2,
+      "PUTUMAYO": 1
+    },
+    "SS 600": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 6,
+      "SANTANDER": 1,
+      "TOLIMA": 1,
+      "VALLE": 1
+    },
+    "STR 250": {
+      "ANTIOQUIA": 3,
+      "BOGOTA": 5,
+      "CAUCA": 1,
+      "CESAR": 1,
+      "CUNDINAMARCA": 9,
+      "HUILA": 1,
+      "META": 2,
+      "PUTUMAYO": 2,
+      "TOLIMA": 13
+    },
+    "SUPER BIKE": {
+      "ANTIOQUIA": 5,
+      "BOGOTA": 5,
+      "CUNDINAMARCA": 2,
+      "NARINO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2
+    },
+    "SUPERMOT EXPERTOS": {
+      "ANTIOQUIA": 6,
+      "BOGOTA": 1,
+      "CUNDINAMARCA": 2,
+      "META": 2,
+      "NARINO": 1,
+      "PUTUMAYO": 1,
+      "QUINDIO": 1,
+      "SANTANDER": 1,
+      "TOLIMA": 2,
+      "VALLE": 1
+    },
+    "SUPERMOT NOVATOS": {
+      "ANTIOQUIA": 6,
+      "BOGOTA": 4,
+      "CUNDINAMARCA": 2,
+      "MEXICO": 1,
+      "TOLIMA": 7,
+      "VALLE": 1
+    },
+    "SUPERSPORT": {
+      "ANTIOQUIA": 2,
+      "BOGOTA": 6,
+      "MEXICO": 1
+    },
+    "X BIKE A": {
+      "ANTIOQUIA": 2,
+      "BOGOTA": 4,
+      "CALDAS": 1,
+      "CAUCA": 1,
+      "VALLE": 1
+    },
+    "X BIKE B": {
+      "ANTIOQUIA": 1,
+      "BOGOTA": 1,
+      "CUNDINAMARCA": 1,
+      "TOLIMA": 3
+    }
+  },
+  "participaciones_por_edad": {
+    "1-5 años": 1,
+    "11-15 años": 19,
+    "16-20 años": 16,
+    "21-25 años": 23,
+    "26-30 años": 57,
+    "31-35 años": 54,
+    "36-40 años": 26,
+    "41-45 años": 19,
+    "46-50 años": 10,
+    "51-55 años": 1,
+    "56-60 años": 1,
+    "6-10 años": 2
+  },
+  "modalidades": {
+    "Hoja1": {
+      "pilotos_unicos": 232,
+      "total_participaciones": 464,
+      "pilotos_por_categoria": {
+        "115 CC ELITE": 42,
+        "115 CC INFANTIL": 14,
+        "115 CC INICIO": 29,
+        "115 CC MAS": 15,
+        "150 CC": 31,
+        "150 CC INICIO": 18,
+        "150 CC MAS": 15,
+        "200 CC 2T": 21,
+        "220 CC 4T": 29,
+        "CRS EXP": 26,
+        "CRS NOV": 41,
+        "FEMENINA": 7,
+        "LGP MOB": 4,
+        "MINI 190": 5,
+        "MINI GP": 10,
+        "MINIMOTARD": 9,
+        "R15": 17,
+        "SS 1000": 5,
+        "SS 600": 10,
+        "STR 250": 37,
+        "SUPER BIKE": 16,
+        "SUPERMOT EXPERTOS": 18,
+        "SUPERMOT NOVATOS": 21,
+        "SUPERSPORT": 9,
+        "X BIKE A": 9,
+        "X BIKE B": 6
+      },
+      "deportistas_por_liga": {
+        "ANTIOQUIA": 41,
+        "BOGOTA": 39,
+        "CALDAS": 5,
+        "CAUCA": 4,
+        "CESAR": 12,
+        "CUNDINAMARCA": 26,
+        "HUILA": 7,
+        "META": 7,
+        "MEXICO": 1,
+        "NARINO": 2,
+        "PUTUMAYO": 7,
+        "QUINDIO": 7,
+        "SANTANDER": 12,
+        "TOLIMA": 51,
+        "VALLE": 11
+      },
+      "deportistas_por_liga_categoria": {
+        "115 CC ELITE": {
+          "ANTIOQUIA": 7,
+          "BOGOTA": 1,
+          "CALDAS": 2,
+          "CAUCA": 2,
+          "CESAR": 2,
+          "CUNDINAMARCA": 4,
+          "META": 5,
+          "NARINO": 1,
+          "PUTUMAYO": 2,
+          "QUINDIO": 3,
+          "SANTANDER": 2,
+          "TOLIMA": 7,
+          "VALLE": 4
+        },
+        "115 CC INFANTIL": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 1,
+          "CESAR": 5,
+          "CUNDINAMARCA": 1,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2,
+          "VALLE": 2
+        },
+        "115 CC INICIO": {
+          "ANTIOQUIA": 3,
+          "BOGOTA": 1,
+          "CESAR": 5,
+          "CUNDINAMARCA": 3,
+          "HUILA": 2,
+          "META": 2,
+          "PUTUMAYO": 2,
+          "QUINDIO": 3,
+          "SANTANDER": 3,
+          "TOLIMA": 1,
+          "VALLE": 4
+        },
+        "115 CC MAS": {
+          "ANTIOQUIA": 6,
+          "CALDAS": 1,
+          "CAUCA": 1,
+          "CUNDINAMARCA": 2,
+          "NARINO": 1,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2
+        },
+        "150 CC": {
+          "ANTIOQUIA": 5,
+          "BOGOTA": 1,
+          "CALDAS": 1,
+          "CAUCA": 1,
+          "CUNDINAMARCA": 5,
+          "META": 5,
+          "NARINO": 1,
+          "PUTUMAYO": 3,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 4,
+          "VALLE": 3
+        },
+        "150 CC INICIO": {
+          "ANTIOQUIA": 2,
+          "BOGOTA": 2,
+          "CESAR": 2,
+          "CUNDINAMARCA": 1,
+          "HUILA": 1,
+          "META": 2,
+          "PUTUMAYO": 1,
+          "QUINDIO": 3,
+          "SANTANDER": 2,
+          "TOLIMA": 1,
+          "VALLE": 1
+        },
+        "150 CC MAS": {
+          "ANTIOQUIA": 3,
+          "CALDAS": 2,
+          "CUNDINAMARCA": 2,
+          "NARINO": 1,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 5
+        },
+        "200 CC 2T": {
+          "ANTIOQUIA": 3,
+          "CAUCA": 2,
+          "CUNDINAMARCA": 3,
+          "META": 2,
+          "NARINO": 1,
+          "PUTUMAYO": 3,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2,
+          "VALLE": 3
+        },
+        "220 CC 4T": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 3,
+          "CAUCA": 2,
+          "CUNDINAMARCA": 7,
+          "HUILA": 1,
+          "META": 2,
+          "SANTANDER": 1,
+          "TOLIMA": 11,
+          "VALLE": 1
+        },
+        "CRS EXP": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 4,
+          "CUNDINAMARCA": 8,
+          "HUILA": 1,
+          "META": 4,
+          "PUTUMAYO": 1,
+          "TOLIMA": 6,
+          "VALLE": 1
+        },
+        "CRS NOV": {
+          "ANTIOQUIA": 7,
+          "BOGOTA": 5,
+          "CAUCA": 1,
+          "CESAR": 1,
+          "CUNDINAMARCA": 8,
+          "HUILA": 3,
+          "PUTUMAYO": 1,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 12,
+          "VALLE": 1
+        },
+        "FEMENINA": {
+          "BOGOTA": 2,
+          "CUNDINAMARCA": 3,
+          "SANTANDER": 1,
+          "TOLIMA": 1
+        },
+        "LGP MOB": {
+          "BOGOTA": 1,
+          "MEXICO": 1,
+          "TOLIMA": 1,
+          "VALLE": 1
+        },
+        "MINI 190": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 2,
+          "CESAR": 1,
+          "TOLIMA": 1
+        },
+        "MINI GP": {
+          "ANTIOQUIA": 2,
+          "BOGOTA": 1,
+          "CESAR": 3,
+          "META": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2
+        },
+        "MINIMOTARD": {
+          "ANTIOQUIA": 5,
+          "CALDAS": 2,
+          "SANTANDER": 1,
+          "VALLE": 1
+        },
+        "R15": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 4,
+          "CAUCA": 1,
+          "HUILA": 3,
+          "SANTANDER": 2,
+          "TOLIMA": 6
+        },
+        "SS 1000": {
+          "ANTIOQUIA": 2,
+          "BOGOTA": 2,
+          "PUTUMAYO": 1
+        },
+        "SS 600": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 6,
+          "SANTANDER": 1,
+          "TOLIMA": 1,
+          "VALLE": 1
+        },
+        "STR 250": {
+          "ANTIOQUIA": 3,
+          "BOGOTA": 5,
+          "CAUCA": 1,
+          "CESAR": 1,
+          "CUNDINAMARCA": 9,
+          "HUILA": 1,
+          "META": 2,
+          "PUTUMAYO": 2,
+          "TOLIMA": 13
+        },
+        "SUPER BIKE": {
+          "ANTIOQUIA": 5,
+          "BOGOTA": 5,
+          "CUNDINAMARCA": 2,
+          "NARINO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2
+        },
+        "SUPERMOT EXPERTOS": {
+          "ANTIOQUIA": 6,
+          "BOGOTA": 1,
+          "CUNDINAMARCA": 2,
+          "META": 2,
+          "NARINO": 1,
+          "PUTUMAYO": 1,
+          "QUINDIO": 1,
+          "SANTANDER": 1,
+          "TOLIMA": 2,
+          "VALLE": 1
+        },
+        "SUPERMOT NOVATOS": {
+          "ANTIOQUIA": 6,
+          "BOGOTA": 4,
+          "CUNDINAMARCA": 2,
+          "MEXICO": 1,
+          "TOLIMA": 7,
+          "VALLE": 1
+        },
+        "SUPERSPORT": {
+          "ANTIOQUIA": 2,
+          "BOGOTA": 6,
+          "MEXICO": 1
+        },
+        "X BIKE A": {
+          "ANTIOQUIA": 2,
+          "BOGOTA": 4,
+          "CALDAS": 1,
+          "CAUCA": 1,
+          "VALLE": 1
+        },
+        "X BIKE B": {
+          "ANTIOQUIA": 1,
+          "BOGOTA": 1,
+          "CUNDINAMARCA": 1,
+          "TOLIMA": 3
+        }
+      },
+      "participaciones_por_edad": {
+        "1-5 años": 1,
+        "11-15 años": 19,
+        "16-20 años": 16,
+        "21-25 años": 23,
+        "26-30 años": 57,
+        "31-35 años": 54,
+        "36-40 años": 26,
+        "41-45 años": 19,
+        "46-50 años": 10,
+        "51-55 años": 1,
+        "56-60 años": 1,
+        "6-10 años": 2
+      }
+    }
+  }
+};
 
         // Función para corregir ortografía de departamentos
-        function corregirOrtografiaDepartamento(nombre) {{
-            const correcciones = {{
+        function corregirOrtografiaDepartamento(nombre) {
+            const correcciones = {
                 'NARINO': 'Nariño',
                 'QUINDIO': 'Quindío',
                 'BOGOTA': 'Bogotá',
@@ -779,81 +1270,81 @@ html_content = f'''<!DOCTYPE html>
                 'RISARALDA': 'Risaralda',
                 'SANTANDER': 'Santander',
                 'TOLIMA': 'Tolima'
-            }};
+            };
             return correcciones[nombre] || nombre;
-        }}
+        }
 
-        document.addEventListener('DOMContentLoaded', function() {{
+        document.addEventListener('DOMContentLoaded', function() {
             renderizarEstadisticas();
             renderizarCategorias();
             renderizarLigas();
             renderizarCategoriaLiga();
             renderizarEdad();
-        }});
+        });
 
-        function renderizarEstadisticas() {{
+        function renderizarEstadisticas() {
             const statsGrid = document.getElementById('statsGrid');
             const totalCategorias = Object.keys(datos.pilotos_por_categoria).length;
             const totalLigas = Object.keys(datos.deportistas_por_liga_total).length;
 
             statsGrid.innerHTML = `
                 <div class="stat-card">
-                    <div class="number">${{datos.total_pilotos_unicos}}</div>
+                    <div class="number">${datos.total_pilotos_unicos}</div>
                     <div class="label">Licencias Únicas</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">${{datos.total_participaciones}}</div>
+                    <div class="number">${datos.total_participaciones}</div>
                     <div class="label">Total Participaciones</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">${{totalCategorias}}</div>
+                    <div class="number">${totalCategorias}</div>
                     <div class="label">Categorías</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">${{totalLigas}}</div>
+                    <div class="number">${totalLigas}</div>
                     <div class="label">Ligas</div>
                 </div>
             `;
-        }}
+        }
 
-        function renderizarCategorias() {{
+        function renderizarCategorias() {
             const chart = document.getElementById('categoriaChart');
             const categorias = Object.entries(datos.pilotos_por_categoria)
                 .sort((a, b) => b[1] - a[1]);
 
             const maxValue = Math.max(...categorias.map(([, v]) => v), 1);
 
-            chart.innerHTML = categorias.map(([categoria, cantidad]) => {{
+            chart.innerHTML = categorias.map(([categoria, cantidad]) => {
                 const porcentaje = (cantidad / maxValue) * 100;
                 return `
                     <div class="bar-item">
-                        <div class="bar-label">${{categoria}}</div>
+                        <div class="bar-label">${categoria}</div>
                         <div class="bar-wrapper">
-                            <div class="bar-fill" style="width: ${{porcentaje}}%">
-                                ${{cantidad}}
+                            <div class="bar-fill" style="width: ${porcentaje}%">
+                                ${cantidad}
                             </div>
                         </div>
                     </div>
                 `;
-            }}).join('');
-        }}
+            }).join('');
+        }
 
-        function renderizarLigas() {{
+        function renderizarLigas() {
             const chart = document.getElementById('ligasChart');
             let ligas = Object.entries(datos.deportistas_por_liga_total);
             let sortBy = 'cantidad-desc';
 
-            function aplicarFiltros() {{
+            function aplicarFiltros() {
                 const search = document.getElementById('searchLiga').value.toLowerCase();
                 sortBy = document.getElementById('filterSortLiga').value;
 
-                let ligasFiltradas = ligas.filter(([liga]) => {{
+                let ligasFiltradas = ligas.filter(([liga]) => {
                     const ligaCorregida = corregirOrtografiaDepartamento(liga);
                     return ligaCorregida.toLowerCase().includes(search) || liga.toLowerCase().includes(search);
-                }});
+                });
 
-                ligasFiltradas.sort((a, b) => {{
-                    switch(sortBy) {{
+                ligasFiltradas.sort((a, b) => {
+                    switch(sortBy) {
                         case 'cantidad-desc':
                             return b[1] - a[1];
                         case 'cantidad-asc':
@@ -864,33 +1355,33 @@ html_content = f'''<!DOCTYPE html>
                             return b[0].localeCompare(a[0]);
                         default:
                             return b[1] - a[1];
-                    }}
-                }});
+                    }
+                });
 
                 const maxValue = Math.max(...ligasFiltradas.map(([, v]) => v), 1);
 
-                chart.innerHTML = ligasFiltradas.map(([liga, cantidad]) => {{
+                chart.innerHTML = ligasFiltradas.map(([liga, cantidad]) => {
                     const porcentaje = (cantidad / maxValue) * 100;
                     const ligaCorregida = corregirOrtografiaDepartamento(liga);
                     return `
                         <div class="bar-item">
-                            <div class="bar-label">${{ligaCorregida}}</div>
+                            <div class="bar-label">${ligaCorregida}</div>
                             <div class="bar-wrapper">
-                                <div class="bar-fill" style="width: ${{porcentaje}}%">
-                                    ${{cantidad}}
+                                <div class="bar-fill" style="width: ${porcentaje}%">
+                                    ${cantidad}
                                 </div>
                             </div>
                         </div>
                     `;
-                }}).join('');
-            }}
+                }).join('');
+            }
 
             document.getElementById('searchLiga').addEventListener('input', aplicarFiltros);
             document.getElementById('filterSortLiga').addEventListener('change', aplicarFiltros);
             aplicarFiltros();
-        }}
+        }
 
-        function renderizarCategoriaLiga() {{
+        function renderizarCategoriaLiga() {
             const container = document.getElementById('todasCategoriasLigaCharts');
             const filtroSelect = document.getElementById('filtroCategoriaLiga');
             const categorias = Object.keys(datos.deportistas_por_liga_categoria).sort();
@@ -898,70 +1389,70 @@ html_content = f'''<!DOCTYPE html>
             // Llenar el selector con todas las categorías
             filtroSelect.innerHTML = '<option value="todas">Todas</option>' +
                 categorias.map(cat => 
-                    `<option value="${{cat}}">${{cat}}</option>`
+                    `<option value="${cat}">${cat}</option>`
                 ).join('');
 
-            function mostrarGraficas(categoriaFiltro) {{
+            function mostrarGraficas(categoriaFiltro) {
                 const categoriasAMostrar = categoriaFiltro === 'todas' 
                     ? categorias 
                     : [categoriaFiltro];
 
-                container.innerHTML = categoriasAMostrar.map(categoria => {{
-                    const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {{}})
+                container.innerHTML = categoriasAMostrar.map(categoria => {
+                    const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {})
                         .sort((a, b) => b[1] - a[1]);
 
-                    if (ligas.length === 0) {{
+                    if (ligas.length === 0) {
                         return '';
-                    }}
+                    }
 
                     const maxValue = Math.max(...ligas.map(([, v]) => v), 1);
                     const maxHeight = 200; // Altura máxima de las columnas
 
-                    const chartHTML = ligas.map(([liga, cantidad]) => {{
+                    const chartHTML = ligas.map(([liga, cantidad]) => {
                         const altura = (cantidad / maxValue) * maxHeight;
                         const ligaCorregida = corregirOrtografiaDepartamento(liga);
                         return `
                             <div class="column-item">
                                 <div class="column-wrapper">
-                                    <div class="column-fill" style="height: ${{altura}}px">
-                                        ${{cantidad}}
+                                    <div class="column-fill" style="height: ${altura}px">
+                                        ${cantidad}
                                     </div>
                                 </div>
-                                <div class="column-label">${{ligaCorregida}}</div>
+                                <div class="column-label">${ligaCorregida}</div>
                             </div>
                         `;
-                    }}).join('');
+                    }).join('');
 
                     return `
                         <div style="margin-bottom: 40px;">
-                            <h3 style="color: #123E92; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 10px; border-bottom: 2px solid #F7C31D;">${{categoria}}</h3>
+                            <h3 style="color: #123E92; margin-bottom: 20px; font-size: 1.3em; padding-bottom: 10px; border-bottom: 2px solid #F7C31D;">${categoria}</h3>
                             <div class="chart-container">
                                 <div class="column-chart">
-                                    ${{chartHTML}}
+                                    ${chartHTML}
                                 </div>
                             </div>
                         </div>
                     `;
-                }}).join('');
-            }}
+                }).join('');
+            }
 
             // Mostrar todas por defecto
             mostrarGraficas('todas');
 
             // Event listener para el filtro
-            filtroSelect.addEventListener('change', function() {{
+            filtroSelect.addEventListener('change', function() {
                 mostrarGraficas(this.value);
-            }});
-        }}
+            });
+        }
 
-        function renderizarEdad() {{
+        function renderizarEdad() {
             const chart = document.getElementById('edadChart');
-            const edades = Object.entries(datos.participaciones_por_edad || {{}});
+            const edades = Object.entries(datos.participaciones_por_edad || {});
             
-            if (edades.length === 0) {{
+            if (edades.length === 0) {
                 chart.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">No hay datos de edad disponibles</p>';
                 return;
-            }}
+            }
 
             // Ordenar por orden de edad (rango de 5 años, empezando desde 1-5)
             const ordenEdades = [
@@ -971,52 +1462,52 @@ html_content = f'''<!DOCTYPE html>
                 "61-65 años", "66+ años"
             ];
             
-            edades.sort((a, b) => {{
+            edades.sort((a, b) => {
                 const idxA = ordenEdades.indexOf(a[0]);
                 const idxB = ordenEdades.indexOf(b[0]);
                 if (idxA === -1 && idxB === -1) return a[0].localeCompare(b[0]);
                 if (idxA === -1) return 1;
                 if (idxB === -1) return -1;
                 return idxA - idxB;
-            }});
+            });
 
             const maxValue = Math.max(...edades.map(([, v]) => v), 1);
             const maxHeight = 250;
 
-            chart.innerHTML = edades.map(([rango, cantidad]) => {{
+            chart.innerHTML = edades.map(([rango, cantidad]) => {
                 const altura = (cantidad / maxValue) * maxHeight;
                 return `
                     <div class="column-item">
                         <div class="column-wrapper">
-                            <div class="column-fill" style="height: ${{altura}}px">
-                                ${{cantidad}}
+                            <div class="column-fill" style="height: ${altura}px">
+                                ${cantidad}
                             </div>
                         </div>
-                        <div class="column-label">${{rango}}</div>
+                        <div class="column-label">${rango}</div>
                     </div>
                 `;
-            }}).join('');
-        }}
+            }).join('');
+        }
 
         // El menú se carga dinámicamente desde menu.html usando load-menu.js
 
         // Función para descargar el informe como PDF
-        document.getElementById('descargarPDF').addEventListener('click', function() {{
+        document.getElementById('descargarPDF').addEventListener('click', function() {
             const button = this;
             const buttonContainer = button.parentElement;
             const originalText = button.innerHTML;
             
             // Mostrar modal de carga con SweetAlert
-            Swal.fire({{
+            Swal.fire({
                 title: 'Generando PDF',
                 html: 'Por favor espere mientras se genera el documento...',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 showConfirmButton: false,
-                didOpen: () => {{
+                didOpen: () => {
                     Swal.showLoading();
-                }}
-            }});
+                }
+            });
 
             // Deshabilitar el botón pero mantenerlo visible
             button.disabled = true;
@@ -1031,16 +1522,16 @@ html_content = f'''<!DOCTYPE html>
             // Capturar el contenido del contenedor principal
             const element = document.querySelector('.container');
             
-            html2canvas(element, {{
+            html2canvas(element, {
                 scale: 2,
                 useCORS: true,
                 logging: false,
                 backgroundColor: '#ffffff',
                 windowWidth: element.scrollWidth,
                 windowHeight: element.scrollHeight
-            }}).then(canvas => {{
+            }).then(canvas => {
                 const imgData = canvas.toDataURL('image/png');
-                const {{ jsPDF }} = window.jspdf;
+                const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
                 const imgWidth = 210; // Ancho A4 en mm
@@ -1054,26 +1545,26 @@ html_content = f'''<!DOCTYPE html>
                 heightLeft -= pageHeight;
 
                 // Agregar páginas adicionales si el contenido es más largo que una página
-                while (heightLeft >= 0) {{
+                while (heightLeft >= 0) {
                     position = heightLeft - imgHeight;
                     pdf.addPage();
                     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
                     heightLeft -= pageHeight;
-                }}
+                }
 
                 // Descargar el PDF
-                const nombreArchivo = '{nombre_valida.replace("/", "_").replace(" ", "_")}_informe.pdf';
+                const nombreArchivo = 'III_VAL_copa_dream_expirience_informe.pdf';
                 pdf.save(nombreArchivo);
 
                 // Cerrar el modal y mostrar éxito
-                Swal.fire({{
+                Swal.fire({
                     icon: 'success',
                     title: 'PDF generado',
                     text: 'El informe se ha descargado correctamente',
                     confirmButtonColor: '#123E92',
                     timer: 2000,
                     timerProgressBar: true
-                }});
+                });
 
                 // Restaurar el contenedor del botón (siempre centrado)
                 buttonContainer.style.display = originalDisplay || 'block';
@@ -1081,245 +1572,27 @@ html_content = f'''<!DOCTYPE html>
                 button.disabled = false;
                 button.style.opacity = '1';
                 button.style.cursor = 'pointer';
-            }}).catch(error => {{
+            }).catch(error => {
                 console.error('Error al generar PDF:', error);
-                Swal.fire({{
+                Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'No se pudo generar el PDF. Por favor, intente nuevamente.',
                     confirmButtonColor: '#123E92'
-                }});
+                });
                 buttonContainer.style.display = originalDisplay || 'block';
                 button.innerHTML = originalText;
                 button.disabled = false;
                 button.style.opacity = '1';
                 button.style.cursor = 'pointer';
-            }});
-        }});
+            });
+        });
     </script>
     
     <!-- Script para cargar el menú dinámicamente -->
-    <script src="{ruta_load_menu.replace(chr(92), '/')}"></script>
+    <script src="../../load-menu.js"></script>
     
     <!-- Script para manejar el botón PDF de forma responsive -->
-    <script src="{ruta_load_menu.replace('load-menu.js', 'pdf-button-responsive.js')}"></script>
+    <script src="../../pdf-button-responsive.js"></script>
 </body>
 </html>
-'''
-
-# Guardar el HTML
-# Escribir el HTML con encoding UTF-8
-try:
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write(html_content)
-except Exception as e:
-    print(f"Error al escribir el archivo HTML: {e}")
-    sys.exit(1)
-
-print(f"HTML generado en: {output_path}")
-
-# Función para agregar el enlace al nuevo informe en todos los menús HTML
-def agregar_enlace_a_menus(output_html_path, nombre_valida):
-    """
-    Busca todos los archivos HTML y agrega el enlace al nuevo informe en el menú correspondiente.
-    """
-    # Obtener el nombre del archivo HTML generado
-    nombre_archivo_html = os.path.basename(output_html_path)
-    
-    # Obtener la ruta relativa desde la raíz del proyecto
-    # output_html_path es relativo a Informes/, necesitamos la ruta completa
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    project_root = os.path.dirname(script_dir)
-    
-    # Buscar todos los archivos HTML en el proyecto
-    html_files = []
-    for root, dirs, files in os.walk(project_root):
-        # Excluir node_modules y otros directorios no relevantes
-        dirs[:] = [d for d in dirs if d not in ['.git', 'node_modules', '__pycache__']]
-        for file in files:
-            if file.endswith('.html'):
-                html_files.append(os.path.join(root, file))
-    
-    # Determinar la ruta relativa del nuevo informe desde cada HTML
-    # output_html_path puede ser relativo a Informes/, Resultados_validas/, o Resultados_generales/
-    # Necesitamos determinar en qué carpeta base está el informe
-    output_dir = os.path.dirname(output_html_path)
-    
-    # Determinar la carpeta base (Informes, Resultados_validas, o Resultados_generales)
-    # output_html_path puede ser "Motocross/Primer semestre/informe.html" (relativo a Informes/)
-    # o puede incluir la carpeta base: "Resultados_validas/Motocross/Primer semestre/informe.html"
-    output_path_norm = output_html_path.replace('\\', '/')
-    partes_output = [p for p in output_path_norm.split('/') if p]
-    
-    # Determinar carpeta base y ruta relativa dentro de esa carpeta
-    if partes_output[0].lower() in ['resultados_validas', 'resultados de válidas']:
-        carpeta_base = 'Resultados_validas'
-        ruta_dentro_base = '/'.join(partes_output[1:]) if len(partes_output) > 1 else ''
-        output_file_full = os.path.join(project_root, 'Resultados_validas', ruta_dentro_base) if ruta_dentro_base else os.path.join(project_root, 'Resultados_validas')
-        menu_objetivo = 'Resultados de válidas'
-    elif partes_output[0].lower() in ['resultados_generales', 'resultados generales']:
-        carpeta_base = 'Resultados_generales'
-        ruta_dentro_base = '/'.join(partes_output[1:]) if len(partes_output) > 1 else ''
-        output_file_full = os.path.join(project_root, 'Resultados_generales', ruta_dentro_base) if ruta_dentro_base else os.path.join(project_root, 'Resultados_generales')
-        menu_objetivo = 'Resultados generales'
-    else:
-        # Por defecto, asumir que está en Informes/
-        carpeta_base = 'Informes'
-        ruta_dentro_base = output_html_path
-        output_file_full = os.path.join(script_dir, output_html_path) if output_html_path else script_dir
-        menu_objetivo = 'Informes'
-    
-    # La ruta dentro de la carpeta base (sin la carpeta base misma)
-    # Ejemplo: si output_html_path es "Motocross/Primer semestre/informe.html", 
-    # entonces ruta_dentro_base es "Motocross/Primer semestre/informe.html"
-    if not ruta_dentro_base:
-        ruta_dentro_base = output_html_path
-    
-    for html_file in html_files:
-        try:
-            # Leer el archivo HTML
-            with open(html_file, 'r', encoding='utf-8') as f:
-                contenido = f.read()
-            
-            # Calcular la ruta relativa desde este HTML al nuevo informe
-            html_dir = os.path.dirname(html_file)
-            try:
-                # Calcular ruta relativa desde el HTML hasta el archivo del informe
-                ruta_relativa = os.path.relpath(output_file_full, html_dir).replace('\\', '/')
-                
-                # Corregir si hay "Informes/Informes" duplicado
-                if 'Informes/Informes' in ruta_relativa:
-                    ruta_relativa = ruta_relativa.replace('Informes/Informes', 'Informes')
-                
-                # Corregir si hay duplicaciones de carpetas
-                if f'{carpeta_base}/{carpeta_base}' in ruta_relativa:
-                    ruta_relativa = ruta_relativa.replace(f'{carpeta_base}/{carpeta_base}', carpeta_base)
-                
-                # Si estamos en index.html o fuera de las carpetas base
-                if html_file == os.path.join(project_root, 'index.html'):
-                    ruta_relativa = f"{carpeta_base}/{ruta_dentro_base}".replace('\\', '/')
-                elif carpeta_base in os.path.relpath(html_file, project_root):
-                    # Si el HTML está dentro de la misma carpeta base, calcular relativa normalmente
-                    pass  # Ya calculada arriba
-                else:
-                    # Si está en otra carpeta, construir desde la raíz
-                    ruta_relativa = f"{carpeta_base}/{ruta_dentro_base}".replace('\\', '/')
-            except Exception as e:
-                # Si falla, construir desde la carpeta base
-                if html_file == os.path.join(project_root, 'index.html'):
-                    ruta_relativa = f"{carpeta_base}/{ruta_dentro_base}".replace('\\', '/')
-                else:
-                    ruta_relativa = f"{carpeta_base}/{ruta_dentro_base}".replace('\\', '/')
-            
-            # Detectar la estructura de carpetas para determinar dónde agregar el enlace
-            # ruta_dentro_base es relativa a la carpeta base, ejemplo: "Motocross/Primer semestre/informe.html"
-            ruta_dentro_base_norm = ruta_dentro_base.replace('\\', '/')
-            partes_ruta = [p for p in ruta_dentro_base_norm.split('/') if p]
-            # Si hay nombre de archivo, removerlo para quedarse solo con directorios
-            if partes_ruta and '.' in partes_ruta[-1]:
-                partes_ruta = partes_ruta[:-1]
-            
-            # Verificar si el enlace ya existe
-            if nombre_archivo_html in contenido:
-                continue  # Ya existe, no agregar de nuevo
-            
-            nuevo_contenido = contenido
-            
-            # Si el informe está en "Motocross/Primer semestre" o "Motocross/Segundo semestre"
-            if len(partes_ruta) >= 2 and partes_ruta[0].lower() == 'motocross':
-                semestre = partes_ruta[1]
-                # Buscar el patrón en el menú objetivo (Informes, Resultados de válidas, o Resultados generales)
-                # Primero encontrar el menú objetivo, luego dentro de él buscar Motocross > semestre
-                patron_menu_objetivo = rf'(<li class="dropdown">\s*<a href="#">{re.escape(menu_objetivo)}</a>\s*<ul class="dropdown-menu">.*?<li class="dropdown">\s*<a href="#">Motocross</a>\s*<ul class="dropdown-menu">.*?<li class="dropdown">\s*<a href="#">{re.escape(semestre)}</a>\s*<ul class="dropdown-menu">)(.*?)(</ul>\s*</li>\s*</li>\s*</li>)'
-                
-                def agregar_enlace_motocross(match):
-                    inicio = match.group(1)
-                    contenido_semestre = match.group(2)
-                    cierre = match.group(3)
-                    
-                    # Verificar si el enlace ya existe
-                    if nombre_archivo_html in contenido_semestre:
-                        return match.group(0)
-                    
-                    # Agregar el nuevo enlace
-                    nuevo_item = f'                                            <li><a href="{ruta_relativa}">{nombre_valida}</a></li>'
-                    return inicio + contenido_semestre + '\n' + nuevo_item + '\n                                        ' + cierre
-                
-                nuevo_contenido = re.sub(
-                    patron_menu_objetivo,
-                    agregar_enlace_motocross,
-                    nuevo_contenido,
-                    flags=re.IGNORECASE | re.DOTALL
-                )
-            
-            # Si el informe está en "Velotierra/Primer semestre" o "Velotierra/Segundo semestre"
-            elif len(partes_ruta) >= 2 and partes_ruta[0].lower() == 'velotierra':
-                semestre = partes_ruta[1]
-                # Buscar el patrón en el menú objetivo
-                patron_menu_objetivo = rf'(<li class="dropdown">\s*<a href="#">{re.escape(menu_objetivo)}</a>\s*<ul class="dropdown-menu">.*?<li class="dropdown">\s*<a href="#">Velotierra</a>\s*<ul class="dropdown-menu">.*?<li class="dropdown">\s*<a href="#">{re.escape(semestre)}</a>\s*<ul class="dropdown-menu">)(.*?)(</ul>\s*</li>\s*</li>\s*</li>)'
-                
-                def agregar_enlace_velotierra(match):
-                    inicio = match.group(1)
-                    contenido_semestre = match.group(2)
-                    cierre = match.group(3)
-                    
-                    # Verificar si el enlace ya existe
-                    if nombre_archivo_html in contenido_semestre:
-                        return match.group(0)
-                    
-                    # Agregar el nuevo enlace
-                    nuevo_item = f'                                            <li><a href="{ruta_relativa}">{nombre_valida}</a></li>'
-                    return inicio + contenido_semestre + '\n' + nuevo_item + '\n                                        ' + cierre
-                
-                nuevo_contenido = re.sub(
-                    patron_menu_objetivo,
-                    agregar_enlace_velotierra,
-                    nuevo_contenido,
-                    flags=re.IGNORECASE | re.DOTALL
-                )
-            
-            # Si el informe está en "Modalidad de ejemplo" (caso especial)
-            elif len(partes_ruta) >= 1 and partes_ruta[0].lower() == 'modalidad de ejemplo':
-                # Buscar el patrón completo del dropdown "Modalidad de ejemplo"
-                patron_completo = r'(<li class="dropdown">\s*<a href="#">Modalidad de ejemplo</a>\s*<ul class="dropdown-menu">)(.*?)(</ul>\s*</li>)'
-                
-                def agregar_enlace_modalidad(match):
-                    inicio = match.group(1)
-                    contenido_menu = match.group(2)
-                    cierre = match.group(3)
-                    
-                    # Verificar si el enlace ya existe
-                    if nombre_archivo_html in contenido_menu:
-                        return match.group(0)
-                    
-                    # Agregar el nuevo enlace
-                    nuevo_item = f'                                    <li><a href="{ruta_relativa}">{nombre_valida}</a></li>'
-                    return inicio + contenido_menu + '\n' + nuevo_item + '\n                                ' + cierre
-                
-                nuevo_contenido = re.sub(
-                    patron_completo,
-                    agregar_enlace_modalidad,
-                    nuevo_contenido,
-                    flags=re.IGNORECASE | re.DOTALL
-                )
-            
-            # Si se hizo algún cambio, escribir el archivo
-            if nuevo_contenido != contenido:
-                with open(html_file, 'w', encoding='utf-8') as f:
-                    f.write(nuevo_contenido)
-                print(f"  [OK] Enlace agregado en: {os.path.relpath(html_file, project_root)}")
-        
-        except Exception as e:
-            print(f"  [ADVERTENCIA] No se pudo actualizar {os.path.relpath(html_file, project_root)}: {e}")
-
-# Agregar el enlace al nuevo informe en todos los menús HTML
-print("\nActualizando menús en todos los archivos HTML...")
-agregar_enlace_a_menus(output_path, nombre_valida)
-
-# Eliminar el archivo JSON después de generar el HTML
-try:
-    os.remove(json_path)
-    print(f"\nArchivo JSON eliminado: {json_path}")
-except Exception as e:
-    print(f"Advertencia: No se pudo eliminar el archivo JSON {json_path}: {e}")
-

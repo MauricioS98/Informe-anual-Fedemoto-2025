@@ -45,7 +45,7 @@ def extraer_datos_excel(excel_path):
         'pilotos_por_categoria': defaultdict(set),
         'deportistas_por_liga_total': defaultdict(set),
         'deportistas_por_liga_categoria': defaultdict(lambda: defaultdict(set)),
-        'participaciones_por_edad': defaultdict(int)
+        'licencias_unicas_por_edad': defaultdict(set)  # Cambiado a set para contar licencias únicas
     }
     
     print(f"Procesando {len(excel_file.sheet_names)} hojas...")
@@ -60,27 +60,45 @@ def extraer_datos_excel(excel_path):
             'pilotos_por_categoria': defaultdict(set),
             'deportistas_por_liga': defaultdict(set),
             'deportistas_por_liga_categoria': defaultdict(lambda: defaultdict(set)),
-            'participaciones_por_edad': defaultdict(int)
+            'licencias_unicas_por_edad': defaultdict(set)  # Cambiado a set para contar licencias únicas
         }
         
         # Fecha de referencia para calcular edades (año actual)
         fecha_referencia = datetime.now()
         
-        # Identificar columnas de información del piloto (excluir categorías)
-        columnas_info = ['Consecutivo', 'Licencia', 'LICEN', 'TX', 'Nombre', 'Apellido', 'Liga', 
-                        'Club', 'FN', 'RH', 'MOTO', 'Documento', 'EPS', 'Pago Licencia', 
-                        'Poliza', 'Celular', 'Mail', 'Formatos', 'PRACT']
+        # Identificar columnas de categorías: solo las que están DESPUÉS de la columna "Formatos"
+        # Buscar la posición de la columna "Formatos"
+        indice_formatos = None
+        for i, col in enumerate(df.columns):
+            if str(col).strip().upper() == 'FORMATOS':
+                indice_formatos = i
+                break
         
-        # Identificar columnas de categorías (las que no están en columnas_info)
         columnas_categorias = []
-        for col in df.columns:
-            if col not in columnas_info and str(col) != 'nan':
-                # Verificar si esta columna tiene valores "x" (indicando participación)
-                if df[col].notna().any():
-                    valores_unicos = df[col].dropna().unique()
-                    # Si tiene "x" o valores similares, es una categoría
-                    if any(str(v).upper().strip() in ['X', 'x', 'X ', ' x'] for v in valores_unicos):
-                        columnas_categorias.append(col)
+        if indice_formatos is not None:
+            print(f"  Columna 'Formatos' encontrada en índice {indice_formatos}")
+            # Solo considerar columnas después de "Formatos"
+            for i in range(indice_formatos + 1, len(df.columns)):
+                col = df.columns[i]
+                if str(col) != 'nan':
+                    # Verificar si esta columna tiene valores "x" (indicando participación)
+                    if df[col].notna().any():
+                        valores_unicos = df[col].dropna().unique()
+                        # Si tiene "x" o valores similares, es una categoría
+                        if any(str(v).upper().strip() in ['X', 'x', 'X ', ' x'] for v in valores_unicos):
+                            columnas_categorias.append(col)
+        else:
+            print(f"  ADVERTENCIA: No se encontró la columna 'Formatos', usando método fallback")
+            # Si no se encuentra "Formatos", usar el método anterior como fallback
+            columnas_info = ['Consecutivo', 'Licencia', 'LICEN', 'TX', 'Nombre', 'Apellido', 'Liga', 
+                            'Club', 'FN', 'RH', 'MOTO', 'Documento', 'EPS', 'Pago Licencia', 
+                            'Poliza', 'Celular', 'Mail', 'Formatos', 'PRACT']
+            for col in df.columns:
+                if col not in columnas_info and str(col) != 'nan':
+                    if df[col].notna().any():
+                        valores_unicos = df[col].dropna().unique()
+                        if any(str(v).upper().strip() in ['X', 'x', 'X ', ' x'] for v in valores_unicos):
+                            columnas_categorias.append(col)
         
         print(f"  Categorías encontradas: {columnas_categorias}")
         
@@ -171,9 +189,9 @@ def extraer_datos_excel(excel_path):
                         resultados['deportistas_por_liga_total'][liga_normalizada].add(licencia)
                         resultados['deportistas_por_liga_categoria'][categoria][liga_normalizada].add(licencia)
                         
-                        # Agregar participación por edad
+                        # Agregar licencia única por edad (no participación)
                         if edad_rango:
-                            resultados['participaciones_por_edad'][edad_rango] += 1
+                            resultados['licencias_unicas_por_edad'][edad_rango].add(licencia)
                         
                         # Agregar a modalidad específica
                         modalidad_data['pilotos_unicos'].add(licencia)
@@ -182,9 +200,9 @@ def extraer_datos_excel(excel_path):
                         modalidad_data['deportistas_por_liga'][liga_normalizada].add(licencia)
                         modalidad_data['deportistas_por_liga_categoria'][categoria][liga_normalizada].add(licencia)
                         
-                        # Agregar participación por edad en modalidad
+                        # Agregar licencia única por edad en modalidad (no participación)
                         if edad_rango:
-                            modalidad_data['participaciones_por_edad'][edad_rango] += 1
+                            modalidad_data['licencias_unicas_por_edad'][edad_rango].add(licencia)
         
         resultados['modalidades'][sheet_name] = modalidad_data
     
@@ -212,7 +230,10 @@ def generar_json(resultados, output_file):
             }
             for cat, ligas in sorted(resultados['deportistas_por_liga_categoria'].items())
         },
-        'participaciones_por_edad': dict(sorted(resultados['participaciones_por_edad'].items())),
+        'participaciones_por_edad': {
+            edad: len(licencias) 
+            for edad, licencias in sorted(resultados['licencias_unicas_por_edad'].items())
+        },
         'modalidades': {
             modalidad: {
                 'pilotos_unicos': len(data['pilotos_unicos']),
@@ -232,7 +253,10 @@ def generar_json(resultados, output_file):
                     }
                     for cat, ligas in sorted(data['deportistas_por_liga_categoria'].items())
                 },
-                'participaciones_por_edad': dict(sorted(data['participaciones_por_edad'].items()))
+                'participaciones_por_edad': {
+                    edad: len(licencias)
+                    for edad, licencias in sorted(data['licencias_unicas_por_edad'].items())
+                }
             }
             for modalidad, data in resultados['modalidades'].items()
         }
