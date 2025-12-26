@@ -249,22 +249,35 @@
                         flex-shrink: 0;
                         align-self: flex-start;
                     }
-                    .fixed-header .header-content { 
-                        padding: 15px 20px;
-                        flex-wrap: nowrap;
-                        align-items: center;
+                    .fixed-header {
+                        display: flex !important;
                         justify-content: flex-start !important;
-                        width: 100%;
+                    }
+                    .fixed-header .header-content { 
+                        padding: 15px 20px !important;
+                        flex-wrap: nowrap !important;
+                        align-items: center !important;
+                        justify-content: flex-start !important;
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        margin: 0 !important;
                     }
                     body {
-                        padding-top: 70px;
+                        padding-top: 120px !important;
                     }
-                    body > *:not(.fixed-header):not(script) {
-                        margin-top: 20px;
+                    body > *:not(.fixed-header):not(script):not(.menu-overlay) {
+                        margin-top: 0 !important;
                     }
-                    main, .content, .container, [class*="content"], [class*="container"] {
-                        margin-top: 20px !important;
-                        padding-top: 20px !important;
+                    main, .content, .container, [class*="content"], [class*="container"],
+                    h1:not(.logo-container h1), h2, h3, .titulo, .title {
+                        margin-top: 0 !important;
+                        padding-top: 0 !important;
+                    }
+                    body > div:first-of-type:not(.fixed-header):not(.menu-overlay),
+                    body > section:first-of-type,
+                    body > main:first-of-type {
+                        margin-top: 0 !important;
+                        padding-top: 0 !important;
                     }
                     .logo-container {
                         display: none !important;
