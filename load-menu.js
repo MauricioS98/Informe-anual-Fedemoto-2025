@@ -145,11 +145,27 @@
                     e.preventDefault();
                     e.stopPropagation();
                     const parent = this.parentElement;
-                    const isActive = parent.classList.contains('active');
+                    
+                    // Verificar el estado ANTES de hacer cualquier cambio
+                    const wasActive = parent.classList.contains('active');
                     
                     // Determinar si es un dropdown principal (directo hijo de .nav-menu)
-                    const isMainDropdown = parent.parentElement.classList.contains('nav-menu');
+                    const isMainDropdown = parent.parentElement && parent.parentElement.classList.contains('nav-menu');
                     
+                    // Si estaba abierto, cerrarlo directamente (toggle)
+                    if (wasActive) {
+                        parent.classList.remove('active');
+                        // Si se cierra un dropdown principal, cerrar también todos sus sub-dropdowns
+                        if (isMainDropdown) {
+                            parent.querySelectorAll('.dropdown').forEach(subDropdown => {
+                                subDropdown.classList.remove('active');
+                            });
+                        }
+                        // No hacer nada más, ya se cerró
+                        return;
+                    }
+                    
+                    // Si estaba cerrado, primero cerrar los otros del mismo nivel
                     if (isMainDropdown) {
                         // Si es un dropdown principal, cerrar todos los demás dropdowns principales
                         const mainDropdowns = document.querySelectorAll('.nav-menu > .dropdown');
@@ -172,18 +188,8 @@
                         });
                     }
                     
-                    // Toggle del dropdown actual (abrir si está cerrado, cerrar si está abierto)
-                    if (isActive) {
-                        parent.classList.remove('active');
-                        // Si se cierra un dropdown principal, cerrar también todos sus sub-dropdowns
-                        if (isMainDropdown) {
-                            parent.querySelectorAll('.dropdown').forEach(subDropdown => {
-                                subDropdown.classList.remove('active');
-                            });
-                        }
-                    } else {
-                        parent.classList.add('active');
-                    }
+                    // Ahora abrir el dropdown actual
+                    parent.classList.add('active');
                 }
             });
         });
