@@ -159,6 +159,23 @@
         background: rgba(255, 255, 255, 0.15);
         transform: none;
     }
+    
+    /* Deshabilitar completamente hover en móvil - solo funcionar con clics */
+    @media (max-width: 768px) {
+        .nav-menu > .dropdown:hover > .dropdown-menu {
+            display: none !important;
+        }
+        .dropdown-menu .dropdown:hover > .dropdown-menu {
+            display: none !important;
+        }
+        .nav-menu > .dropdown:hover {
+            background: transparent !important;
+        }
+        .nav-menu > li > a:hover {
+            background: rgba(255, 255, 255, 0.15) !important;
+            transform: none !important;
+        }
+    }
 
     /* Dropdowns en móvil */
     .dropdown-menu {

@@ -144,6 +144,7 @@
                 if (window.innerWidth <= 768) {
                     e.preventDefault();
                     e.stopPropagation();
+                    
                     const parent = this.parentElement;
                     
                     // Verificar el estado ANTES de hacer cualquier cambio
@@ -152,7 +153,7 @@
                     // Determinar si es un dropdown principal (directo hijo de .nav-menu)
                     const isMainDropdown = parent.parentElement && parent.parentElement.classList.contains('nav-menu');
                     
-                    // Si estaba abierto, cerrarlo directamente (toggle)
+                    // Si estaba abierto, cerrarlo directamente
                     if (wasActive) {
                         parent.classList.remove('active');
                         // Si se cierra un dropdown principal, cerrar también todos sus sub-dropdowns
@@ -161,7 +162,6 @@
                                 subDropdown.classList.remove('active');
                             });
                         }
-                        // No hacer nada más, ya se cerró
                         return;
                     }
                     
@@ -197,13 +197,25 @@
         // Cerrar dropdowns al hacer clic fuera (solo en móvil)
         document.addEventListener('click', function(e) {
             if (window.innerWidth <= 768) {
-                // No cerrar si el clic fue en el botón hamburguesa o en el overlay
+                // No cerrar si el clic fue en el botón hamburguesa, en el overlay, o en cualquier parte del menú
                 const menuToggle = document.querySelector('.menu-toggle');
                 const menuOverlay = document.getElementById('menu-overlay');
+                const nav = document.querySelector('.fixed-header nav');
+                
+                // Verificar si el clic fue dentro del menú de navegación completo
+                const isClickInNav = nav && (nav.contains(e.target) || nav === e.target);
                 const isClickOnToggle = menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle);
                 const isClickOnOverlay = menuOverlay && (menuOverlay.contains(e.target) || e.target === menuOverlay);
                 
-                if (!isClickOnToggle && !isClickOnOverlay && !e.target.closest('.dropdown')) {
+                // Verificar si el clic fue en cualquier parte de un dropdown (link, menú, o contenido)
+                const clickedDropdown = e.target.closest('.dropdown');
+                const clickedDropdownMenu = e.target.closest('.dropdown-menu');
+                const clickedDropdownLink = e.target.closest('.dropdown > a');
+                const isClickOnDropdown = clickedDropdown || clickedDropdownLink || clickedDropdownMenu;
+                
+                // Solo cerrar si el clic fue completamente fuera del menú
+                if (!isClickOnToggle && !isClickOnOverlay && !isClickInNav && !isClickOnDropdown) {
+                    // Cerrar todos los dropdowns
                     document.querySelectorAll('.dropdown').forEach(d => {
                         d.classList.remove('active');
                     });
