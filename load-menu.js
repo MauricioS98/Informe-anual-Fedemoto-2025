@@ -105,7 +105,7 @@
         const currentPath = window.location.pathname;
         const currentHref = window.location.href;
         const currentFile = currentPath.split('/').pop() || 'index.html';
-        const currentFileName = currentFile.split('?')[0]; // Remover query strings
+        const currentFileName = currentFile.split('?')[0];
         
         // Buscar en todos los enlaces del menú (incluyendo dropdowns)
         const links = document.querySelectorAll('.nav-menu a[href], .dropdown-menu a[href]');
@@ -113,9 +113,8 @@
             const href = link.getAttribute('href');
             if (href && href !== '#') {
                 const linkFile = href.split('/').pop() || href.split('\\').pop();
-                const linkFileName = linkFile ? linkFile.split('?')[0] : ''; // Remover query strings
+                const linkFileName = linkFile ? linkFile.split('?')[0] : '';
                 
-                // Comparar nombres de archivo
                 if (linkFileName && currentFileName && linkFileName === currentFileName) {
                     link.classList.add('active');
                     const dropdown = link.closest('.dropdown');
@@ -132,96 +131,109 @@
             }
         });
 
-        // Manejar clics en menús desplegables para móviles
-        const dropdowns = document.querySelectorAll('.dropdown > a');
-        
-        dropdowns.forEach(dropdown => {
-            // Remover listeners anteriores si existen
-            const newDropdown = dropdown.cloneNode(true);
-            dropdown.parentNode.replaceChild(newDropdown, dropdown);
+        // Manejar clics en menús desplegables SOLO para móviles
+        if (window.innerWidth <= 768) {
+            const dropdownLinks = document.querySelectorAll('.dropdown > a');
             
-            newDropdown.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const parent = this.parentElement;
-                    
-                    // Verificar el estado ANTES de hacer cualquier cambio
-                    const wasActive = parent.classList.contains('active');
-                    
-                    // Determinar si es un dropdown principal (directo hijo de .nav-menu)
-                    const isMainDropdown = parent.parentElement && parent.parentElement.classList.contains('nav-menu');
-                    
-                    // Si estaba abierto, cerrarlo directamente
-                    if (wasActive) {
-                        parent.classList.remove('active');
-                        // Si se cierra un dropdown principal, cerrar también todos sus sub-dropdowns
-                        if (isMainDropdown) {
-                            parent.querySelectorAll('.dropdown').forEach(subDropdown => {
-                                subDropdown.classList.remove('active');
-                            });
-                        }
+            dropdownLinks.forEach(dropdownLink => {
+                // Remover listeners anteriores
+                const newLink = dropdownLink.cloneNode(true);
+                dropdownLink.parentNode.replaceChild(newLink, dropdownLink);
+                
+                newLink.addEventListener('click', function(e) {
+                    // Solo procesar en móvil
+                    if (window.innerWidth > 768) {
                         return;
                     }
                     
-                    // Si estaba cerrado, primero cerrar los otros del mismo nivel
-                    if (isMainDropdown) {
-                        // Si es un dropdown principal, cerrar todos los demás dropdowns principales
-                        const mainDropdowns = document.querySelectorAll('.nav-menu > .dropdown');
-                        mainDropdowns.forEach(mainDropdown => {
-                            if (mainDropdown !== parent) {
-                                mainDropdown.classList.remove('active');
-                                // También cerrar todos los sub-dropdowns dentro de los otros principales
-                                mainDropdown.querySelectorAll('.dropdown').forEach(subDropdown => {
-                                    subDropdown.classList.remove('active');
-                                });
-                            }
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const dropdown = this.parentElement;
+                    const isMainDropdown = dropdown.parentElement && dropdown.parentElement.classList.contains('nav-menu');
+                    const isOpen = dropdown.classList.contains('active');
+                    
+                    // Si está abierto, cerrarlo
+                    if (isOpen) {
+                        dropdown.classList.remove('active');
+                        // Cerrar también todos sus sub-dropdowns
+                        dropdown.querySelectorAll('.dropdown').forEach(sub => {
+                            sub.classList.remove('active');
                         });
                     } else {
-                        // Si es un sub-dropdown, cerrar solo los otros sub-dropdowns del mismo nivel
-                        const siblings = Array.from(parent.parentElement.children);
-                        siblings.forEach(sibling => {
-                            if (sibling !== parent && sibling.classList.contains('dropdown')) {
-                                sibling.classList.remove('active');
-                            }
-                        });
+                        // Si está cerrado, cerrar otros del mismo nivel y abrir este
+                        if (isMainDropdown) {
+                            // Cerrar todos los otros dropdowns principales
+                            document.querySelectorAll('.nav-menu > .dropdown').forEach(mainDropdown => {
+                                if (mainDropdown !== dropdown) {
+                                    mainDropdown.classList.remove('active');
+                                    mainDropdown.querySelectorAll('.dropdown').forEach(sub => {
+                                        sub.classList.remove('active');
+                                    });
+                                }
+                            });
+                        } else {
+                            // Cerrar otros sub-dropdowns del mismo nivel
+                            const siblings = Array.from(dropdown.parentElement.children);
+                            siblings.forEach(sibling => {
+                                if (sibling !== dropdown && sibling.classList.contains('dropdown')) {
+                                    sibling.classList.remove('active');
+                                }
+                            });
+                        }
+                        // Abrir este dropdown
+                        dropdown.classList.add('active');
                     }
-                    
-                    // Ahora abrir el dropdown actual
-                    parent.classList.add('active');
-                }
+                });
             });
-        });
-
-        // Cerrar dropdowns al hacer clic fuera (solo en móvil)
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                // No cerrar si el clic fue en el botón hamburguesa, en el overlay, o en cualquier parte del menú
-                const menuToggle = document.querySelector('.menu-toggle');
-                const menuOverlay = document.getElementById('menu-overlay');
-                const nav = document.querySelector('.fixed-header nav');
-                
-                // Verificar si el clic fue dentro del menú de navegación completo
-                const isClickInNav = nav && (nav.contains(e.target) || nav === e.target);
-                const isClickOnToggle = menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle);
-                const isClickOnOverlay = menuOverlay && (menuOverlay.contains(e.target) || e.target === menuOverlay);
-                
-                // Verificar si el clic fue en cualquier parte de un dropdown (link, menú, o contenido)
-                const clickedDropdown = e.target.closest('.dropdown');
-                const clickedDropdownMenu = e.target.closest('.dropdown-menu');
-                const clickedDropdownLink = e.target.closest('.dropdown > a');
-                const isClickOnDropdown = clickedDropdown || clickedDropdownLink || clickedDropdownMenu;
-                
-                // Solo cerrar si el clic fue completamente fuera del menú
-                if (!isClickOnToggle && !isClickOnOverlay && !isClickInNav && !isClickOnDropdown) {
-                    // Cerrar todos los dropdowns
-                    document.querySelectorAll('.dropdown').forEach(d => {
-                        d.classList.remove('active');
-                    });
+            
+            // Cerrar dropdowns al hacer clic fuera del menú (solo en móvil)
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) {
+                    return;
                 }
-            }
-        });
+                
+                // No hacer nada si el clic fue en el botón hamburguesa
+                const menuToggle = document.querySelector('.menu-toggle');
+                if (menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle)) {
+                    return;
+                }
+                
+                // No hacer nada si el clic fue en un enlace dentro del dropdown (permitir navegación)
+                const clickedLink = e.target.closest('a[href]');
+                if (clickedLink && clickedLink.getAttribute('href') !== '#') {
+                    // Verificar si el enlace está dentro de un dropdown-menu
+                    const dropdownMenu = clickedLink.closest('.dropdown-menu');
+                    if (dropdownMenu) {
+                        // Es un enlace dentro del dropdown, permitir que funcione
+                        // Cerrar el dropdown después de un pequeño delay para permitir la navegación
+                        setTimeout(function() {
+                            document.querySelectorAll('.dropdown').forEach(d => {
+                                d.classList.remove('active');
+                            });
+                        }, 100);
+                        return;
+                    }
+                }
+                
+                // No hacer nada si el clic fue en el título del dropdown (ya manejado arriba)
+                const clickedDropdownTitle = e.target.closest('.dropdown > a');
+                if (clickedDropdownTitle) {
+                    return;
+                }
+                
+                // No hacer nada si el clic fue dentro del menú de navegación (pero no en enlaces)
+                const nav = document.querySelector('.fixed-header nav');
+                if (nav && nav.contains(e.target)) {
+                    return;
+                }
+                
+                // Si llegamos aquí, el clic fue fuera del menú, cerrar todos los dropdowns
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    d.classList.remove('active');
+                });
+            });
+        }
     }
 
     // Función para inicializar el menú
