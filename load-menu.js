@@ -131,109 +131,104 @@
             }
         });
 
-        // Manejar clics en menús desplegables SOLO para móviles
-        if (window.innerWidth <= 768) {
-            const dropdownLinks = document.querySelectorAll('.dropdown > a');
+        // Manejar clics en menús desplegables para móviles (permitir hover también)
+        const dropdownLinks = document.querySelectorAll('.dropdown > a');
+        
+        dropdownLinks.forEach(dropdownLink => {
+            // Remover listeners anteriores
+            const newLink = dropdownLink.cloneNode(true);
+            dropdownLink.parentNode.replaceChild(newLink, dropdownLink);
             
-            dropdownLinks.forEach(dropdownLink => {
-                // Remover listeners anteriores
-                const newLink = dropdownLink.cloneNode(true);
-                dropdownLink.parentNode.replaceChild(newLink, dropdownLink);
-                
-                newLink.addEventListener('click', function(e) {
-                    // Solo procesar en móvil
-                    if (window.innerWidth > 768) {
-                        return;
-                    }
-                    
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const dropdown = this.parentElement;
-                    const isMainDropdown = dropdown.parentElement && dropdown.parentElement.classList.contains('nav-menu');
-                    const isOpen = dropdown.classList.contains('active');
-                    
-                    // Si está abierto, cerrarlo
-                    if (isOpen) {
-                        dropdown.classList.remove('active');
-                        // Cerrar también todos sus sub-dropdowns
-                        dropdown.querySelectorAll('.dropdown').forEach(sub => {
-                            sub.classList.remove('active');
-                        });
-                    } else {
-                        // Si está cerrado, cerrar otros del mismo nivel y abrir este
-                        if (isMainDropdown) {
-                            // Cerrar todos los otros dropdowns principales
-                            document.querySelectorAll('.nav-menu > .dropdown').forEach(mainDropdown => {
-                                if (mainDropdown !== dropdown) {
-                                    mainDropdown.classList.remove('active');
-                                    mainDropdown.querySelectorAll('.dropdown').forEach(sub => {
-                                        sub.classList.remove('active');
-                                    });
-                                }
-                            });
-                        } else {
-                            // Cerrar otros sub-dropdowns del mismo nivel
-                            const siblings = Array.from(dropdown.parentElement.children);
-                            siblings.forEach(sibling => {
-                                if (sibling !== dropdown && sibling.classList.contains('dropdown')) {
-                                    sibling.classList.remove('active');
-                                }
-                            });
-                        }
-                        // Abrir este dropdown
-                        dropdown.classList.add('active');
-                    }
-                });
-            });
-            
-            // Cerrar dropdowns al hacer clic fuera del menú (solo en móvil)
-            document.addEventListener('click', function(e) {
+            newLink.addEventListener('click', function(e) {
+                // Solo procesar en móvil
                 if (window.innerWidth > 768) {
                     return;
                 }
                 
-                // No hacer nada si el clic fue en el botón hamburguesa
-                const menuToggle = document.querySelector('.menu-toggle');
-                if (menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle)) {
-                    return;
-                }
+                e.preventDefault();
+                e.stopPropagation();
                 
-                // No hacer nada si el clic fue en un enlace dentro del dropdown (permitir navegación)
+                const dropdown = this.parentElement;
+                const isMainDropdown = dropdown.parentElement && dropdown.parentElement.classList.contains('nav-menu');
+                const isOpen = dropdown.classList.contains('active');
+                
+                // Si está abierto, cerrarlo
+                if (isOpen) {
+                    dropdown.classList.remove('active');
+                    // Cerrar también todos sus sub-dropdowns
+                    dropdown.querySelectorAll('.dropdown').forEach(sub => {
+                        sub.classList.remove('active');
+                    });
+                } else {
+                    // Si está cerrado, cerrar otros del mismo nivel y abrir este
+                    if (isMainDropdown) {
+                        // Cerrar todos los otros dropdowns principales
+                        document.querySelectorAll('.nav-menu > .dropdown').forEach(mainDropdown => {
+                            if (mainDropdown !== dropdown) {
+                                mainDropdown.classList.remove('active');
+                                mainDropdown.querySelectorAll('.dropdown').forEach(sub => {
+                                    sub.classList.remove('active');
+                                });
+                            }
+                        });
+                    } else {
+                        // Cerrar otros sub-dropdowns del mismo nivel
+                        const siblings = Array.from(dropdown.parentElement.children);
+                        siblings.forEach(sibling => {
+                            if (sibling !== dropdown && sibling.classList.contains('dropdown')) {
+                                sibling.classList.remove('active');
+                            }
+                        });
+                    }
+                    // Abrir este dropdown
+                    dropdown.classList.add('active');
+                }
+            });
+        });
+        
+        // Cerrar dropdowns al hacer clic fuera del menú (solo en móvil)
+        // Remover listener anterior si existe para evitar duplicados
+        if (window.mobileDropdownClickOutsideHandler) {
+            document.removeEventListener('click', window.mobileDropdownClickOutsideHandler);
+        }
+        
+        window.mobileDropdownClickOutsideHandler = function(e) {
+            if (window.innerWidth > 768) {
+                return;
+            }
+            
+            // No hacer nada si el clic fue en el botón hamburguesa
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (menuToggle && (menuToggle.contains(e.target) || e.target === menuToggle)) {
+                return;
+            }
+            
+            // No hacer nada si el clic fue dentro del menú de navegación completo
+            const nav = document.querySelector('.fixed-header nav');
+            if (nav && nav.contains(e.target)) {
+                // Permitir que los enlaces dentro del dropdown funcionen
                 const clickedLink = e.target.closest('a[href]');
                 if (clickedLink && clickedLink.getAttribute('href') !== '#') {
-                    // Verificar si el enlace está dentro de un dropdown-menu
+                    // Si es un enlace dentro del dropdown-menu, cerrar después de navegar
                     const dropdownMenu = clickedLink.closest('.dropdown-menu');
                     if (dropdownMenu) {
-                        // Es un enlace dentro del dropdown, permitir que funcione
-                        // Cerrar el dropdown después de un pequeño delay para permitir la navegación
                         setTimeout(function() {
                             document.querySelectorAll('.dropdown').forEach(d => {
                                 d.classList.remove('active');
                             });
-                        }, 100);
-                        return;
+                        }, 200);
                     }
                 }
-                
-                // No hacer nada si el clic fue en el título del dropdown (ya manejado arriba)
-                const clickedDropdownTitle = e.target.closest('.dropdown > a');
-                if (clickedDropdownTitle) {
-                    return;
-                }
-                
-                // No hacer nada si el clic fue dentro del menú de navegación (pero no en enlaces)
-                const nav = document.querySelector('.fixed-header nav');
-                if (nav && nav.contains(e.target)) {
-                    return;
-                }
-                
-                // Si llegamos aquí, el clic fue fuera del menú, cerrar todos los dropdowns
-                document.querySelectorAll('.dropdown').forEach(d => {
-                    d.classList.remove('active');
-                });
+                return;
+            }
+            
+            // Si llegamos aquí, el clic fue fuera del menú, cerrar todos los dropdowns
+            document.querySelectorAll('.dropdown').forEach(d => {
+                d.classList.remove('active');
             });
-        }
+        };
+        
+        document.addEventListener('click', window.mobileDropdownClickOutsideHandler);
     }
 
     // Función para inicializar el menú
