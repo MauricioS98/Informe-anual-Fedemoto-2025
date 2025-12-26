@@ -690,7 +690,17 @@ html_content = f'''<!DOCTYPE html>
                 <!-- Se llenará con JavaScript -->
             </div>
 
-            <!-- Sección 1: Pilotos por categoría -->
+            <!-- Sección 1: Participación por edad -->
+            <div class="section">
+                <h2>🎂 Participación por edad</h2>
+                <div class="chart-container">
+                    <div class="column-chart" id="edadChart">
+                        <!-- Se llenará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 2: Pilotos por categoría -->
             <div class="section">
                 <h2>🏆 Pilotos por categoría</h2>
                 <div class="chart-container">
@@ -700,7 +710,7 @@ html_content = f'''<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- Sección 2: Deportistas por ligas totales -->
+            <!-- Sección 3: Deportistas por ligas totales -->
             <div class="section">
                 <h2>🌎 Deportistas por ligas totales</h2>
                 <div class="filters-container">
@@ -719,26 +729,16 @@ html_content = f'''<!DOCTYPE html>
                 </div>
             </div>
 
-            <!-- Sección 3: Deportistas por ligas por categoría -->
+            <!-- Sección 4: Deportistas por ligas por categoría -->
             <div class="section">
                 <h2>📈 Deportistas por ligas por categoría</h2>
                 <div class="filters-container" style="grid-template-columns: 1fr; max-width: 400px; margin-bottom: 30px;">
                     <select class="filter-select" id="filtroCategoriaLiga">
-                        <option value="todas">Todas</option>
+                        <option value="">Seleccione un filtro</option>
                     </select>
                 </div>
                 <div id="todasCategoriasLigaCharts">
                     <!-- Se llenará con todas las gráficas de categorías -->
-                </div>
-            </div>
-
-            <!-- Sección 4: Participación por edad -->
-            <div class="section">
-                <h2>🎂 Participación por edad</h2>
-                <div class="chart-container">
-                    <div class="column-chart" id="edadChart">
-                        <!-- Se llenará con JavaScript -->
-                    </div>
                 </div>
             </div>
         </div>
@@ -785,10 +785,10 @@ html_content = f'''<!DOCTYPE html>
 
         document.addEventListener('DOMContentLoaded', function() {{
             renderizarEstadisticas();
+            renderizarEdad();
             renderizarCategorias();
             renderizarLigas();
             renderizarCategoriaLiga();
-            renderizarEdad();
         }});
 
         function renderizarEstadisticas() {{
@@ -896,15 +896,19 @@ html_content = f'''<!DOCTYPE html>
             const categorias = Object.keys(datos.deportistas_por_liga_categoria).sort();
 
             // Llenar el selector con todas las categorías
-            filtroSelect.innerHTML = '<option value="todas">Todas</option>' +
+            filtroSelect.innerHTML = '<option value="">Seleccione un filtro</option>' +
                 categorias.map(cat => 
                     `<option value="${{cat}}">${{cat}}</option>`
                 ).join('');
 
             function mostrarGraficas(categoriaFiltro) {{
-                const categoriasAMostrar = categoriaFiltro === 'todas' 
-                    ? categorias 
-                    : [categoriaFiltro];
+                // Si no hay filtro seleccionado, no mostrar nada
+                if (!categoriaFiltro || categoriaFiltro === '') {{
+                    container.innerHTML = '';
+                    return;
+                }}
+                
+                const categoriasAMostrar = [categoriaFiltro];
 
                 container.innerHTML = categoriasAMostrar.map(categoria => {{
                     const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {{}})
@@ -945,8 +949,8 @@ html_content = f'''<!DOCTYPE html>
                 }}).join('');
             }}
 
-            // Mostrar todas por defecto
-            mostrarGraficas('todas');
+            // No mostrar nada por defecto (esperar a que el usuario seleccione un filtro)
+            container.innerHTML = '';
 
             // Event listener para el filtro
             filtroSelect.addEventListener('change', function() {{
