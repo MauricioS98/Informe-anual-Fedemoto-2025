@@ -17,6 +17,7 @@
             background: #ffffff;
             color: #333;
             line-height: 1.6;
+            padding: 20px;
             padding-top: 100px;
             min-height: 100vh;
         }
@@ -334,6 +335,21 @@
             line-height: 1.7;
         }
 
+        footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+
+        footer .developer {
+            font-weight: 600;
+            color: #123E92;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -386,6 +402,7 @@
             }
 
             body {
+                padding: 10px;
                 padding-top: 150px;
             }
 
@@ -403,6 +420,10 @@
 
             .content-section {
                 padding: 30px 20px;
+            }
+
+            footer {
+                padding: 20px;
             }
         }
     </style>
@@ -469,9 +490,36 @@
                 </div>
             </div>
         </div>
+
+        <footer>
+            <p><span class="developer">Developed by Mauricio Sánchez Aguilar - Fedemoto</span></p>
+            <p>Este proyecto es de uso interno de FEDEMOTO.</p>
+        </footer>
     </div>
 
     <!-- Script para cargar el menú dinámicamente -->
     <script src="load-menu.js"></script>
+    
+    <!-- Script para prevenir scroll automático al recargar -->
+    <script>
+        // Prevenir scroll automático al recargar la página
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        
+        // Asegurar que la página comience en la parte superior
+        window.addEventListener('beforeunload', function() {
+            window.scrollTo(0, 0);
+        });
+        
+        // Asegurar posición inicial al cargar
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+            // Pequeño delay para asegurar que el menú se haya cargado
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+    </script>
 </body>
 </html>

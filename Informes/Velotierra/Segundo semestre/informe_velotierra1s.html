@@ -1250,5 +1250,26 @@
     
     <!-- Script para manejar el botón PDF de forma responsive -->
     <script src="../../../pdf-button-responsive.js"></script>
+    <!-- Script para prevenir scroll automático al recargar -->
+    <script>
+        // Prevenir scroll automático al recargar la página
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        
+        // Asegurar que la página comience en la parte superior
+        window.addEventListener('beforeunload', function() {
+            window.scrollTo(0, 0);
+        });
+        
+        // Asegurar posición inicial al cargar
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+            // Pequeño delay para asegurar que el menú se haya cargado
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 100);
+        });
+    </script>
 </body>
 </html>
