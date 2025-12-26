@@ -897,6 +897,7 @@ html_content = f'''<!DOCTYPE html>
 
             // Llenar el selector con todas las categorías
             filtroSelect.innerHTML = '<option value="">Seleccione un filtro</option>' +
+                '<option value="todas">Mostrar todas las categorías</option>' +
                 categorias.map(cat => 
                     `<option value="${{cat}}">${{cat}}</option>`
                 ).join('');
@@ -908,7 +909,10 @@ html_content = f'''<!DOCTYPE html>
                     return;
                 }}
                 
-                const categoriasAMostrar = [categoriaFiltro];
+                // Si se selecciona "todas", mostrar todas las categorías
+                const categoriasAMostrar = categoriaFiltro === 'todas' 
+                    ? categorias 
+                    : [categoriaFiltro];
 
                 container.innerHTML = categoriasAMostrar.map(categoria => {{
                     const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {{}})

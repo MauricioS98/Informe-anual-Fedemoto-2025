@@ -1391,7 +1391,8 @@
             const categorias = Object.keys(datos.deportistas_por_liga_categoria).sort();
 
             // Llenar el selector con todas las categorías
-            filtroSelect.innerHTML = '<option value="">Seleccione un filtro</option>' +
+            filtroSelect.innerHTML = '<option value=\"\">Seleccione un filtro</option>' +
+                '<option value=\"todas\">Mostrar todas las categorías</option>' +
                 categorias.map(cat => 
                     `<option value="${cat}">${cat}</option>`
                 ).join('');
@@ -1403,7 +1404,10 @@
                     return;
                 }
                 
-                const categoriasAMostrar = [categoriaFiltro];
+                // Si se selecciona "todas", mostrar todas las categorías
+                const categoriasAMostrar = categoriaFiltro === 'todas' 
+                    ? categorias 
+                    : [categoriaFiltro];
 
                 container.innerHTML = categoriasAMostrar.map(categoria => {
                     const ligas = Object.entries(datos.deportistas_por_liga_categoria[categoria] || {})
