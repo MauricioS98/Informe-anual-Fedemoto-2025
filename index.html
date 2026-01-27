@@ -49,6 +49,14 @@
             gap: 15px;
         }
 
+        .logo-container a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+
         .logo-container img {
             height: 50px;
             width: auto;
@@ -58,6 +66,10 @@
             font-size: 1.8em;
             margin: 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .logo-container a:hover h1 {
+            opacity: 0.9;
         }
 
         .nav-menu {
@@ -183,8 +195,10 @@
             overflow: visible;
         }
         
-        /* En "Resultados generales", mostrar submenús a la izquierda */
-        .nav-menu > .dropdown:nth-child(4) .dropdown-menu > .dropdown > .dropdown-menu {
+        /* En los últimos dropdowns del menú, mostrar submenús a la izquierda para evitar que se salgan de la pantalla */
+        .nav-menu > .dropdown:nth-child(3) .dropdown-menu > .dropdown > .dropdown-menu,
+        .nav-menu > .dropdown:nth-child(4) .dropdown-menu > .dropdown > .dropdown-menu,
+        .nav-menu > .dropdown:nth-child(5) .dropdown-menu > .dropdown > .dropdown-menu {
             left: auto;
             right: 100%;
             margin-left: 0;
