@@ -167,6 +167,22 @@ REPORT_CONFIGS = [
         ),
     },
     {
+        "output_html": os.path.join(
+            SCRIPT_DIR, "Velocidad", "Segundo semestre", "informe_valida_ii_velocidad_girardot.html"
+        ),
+        "files_dir": os.path.join(
+            ROOT_DIR, "Resultados_validas", "Velocidad", "Segundo semestre", "FILES EXPORTED GIRARDOT"
+        ),
+        "session_priority": ["final", "carrera", "clasificatoria", "otros"],
+        "title": "Informe II Válida Velocidad - Girardot, Cundinamarca | FEDEMOTO",
+        "heading": "Informe II Válida Nacional de Velocidad — Segundo semestre",
+        "subtitle": "Girardot, Cundinamarca — Estadísticas de la válida",
+        "intro": (
+            "A continuación se presentan las estadísticas generadas a partir de los resultados "
+            "de la II Válida Nacional de Velocidad del segundo semestre, realizada en Girardot, Cundinamarca."
+        ),
+    },
+    {
         "output_html": os.path.join(SCRIPT_DIR, "Velotierra", "Primer semestre", "informe_valida_i_vt_tulua.html"),
         "files_dir": os.path.join(ROOT_DIR, "Resultados_validas", "Velotierra", "Primer semestre", "FILES EXPORTED_tulua"),
         "title": "Informe I Válida VT - Tuluá, Valle del Cauca | FEDEMOTO",

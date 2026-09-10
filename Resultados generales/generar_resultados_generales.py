@@ -122,8 +122,13 @@ CHAMPIONSHIPS = [
                     ROOT_DIR, "Resultados_validas", "Velocidad", "Segundo semestre", "FILES EXPORTED_MANIZALES"
                 ),
             },
+            {
+                "label": "II Válida Velocidad - Girardot",
+                "files_dir": os.path.join(
+                    ROOT_DIR, "Resultados_validas", "Velocidad", "Segundo semestre", "FILES EXPORTED GIRARDOT"
+                ),
+            },
         ],
-        "final_valida_bonus": 8,
         "output_html": os.path.join(
             SCRIPT_DIR, "Velocidad", "Segundo semestre", "resultado_general_velocidad_segundo_semestre.html"
         ),
