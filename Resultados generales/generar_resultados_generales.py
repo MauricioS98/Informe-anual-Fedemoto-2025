@@ -175,7 +175,6 @@ CHAMPIONSHIPS = [
                 ),
             },
         ],
-        "final_valida_bonus": 8,
         "output_html": os.path.join(
             SCRIPT_DIR, "Velotierra", "Segundo semestre", "resultado_general_vt_segundo_semestre.html"
         ),
