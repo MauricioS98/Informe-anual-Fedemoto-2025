@@ -164,6 +164,16 @@ CHAMPIONSHIPS = [
                     "FILES EXPORTED_Villa garzón",
                 ),
             },
+            {
+                "label": "II Válida VT - Popayán",
+                "files_dir": os.path.join(
+                    ROOT_DIR,
+                    "Resultados_validas",
+                    "Velotierra",
+                    "Segundo semestre",
+                    "FILES EXPORTED_Popayan",
+                ),
+            },
         ],
         "final_valida_bonus": 8,
         "output_html": os.path.join(
@@ -492,6 +502,15 @@ def csv_delimiter_from_first_line(first_line):
     return ";" if first_line.count(";") > first_line.count(",") else ","
 
 
+def canonical_velotierra_categoria(cat):
+    k = normalize_key(cat)
+    if k in ("200expertos", "expertos200"):
+        return "Expertos"
+    if k in ("200novatos", "novatos200"):
+        return "Novatos"
+    return cat
+
+
 def load_valida_category_rows(files_dir, modalidad=None):
     by_cat_files = defaultdict(list)
     for filename in os.listdir(files_dir):
@@ -503,6 +522,8 @@ def load_valida_category_rows(files_dir, modalidad=None):
         categoria, tipo = parse_filename(filename)
         if modalidad == "Enduro":
             categoria = canonical_enduro_categoria(categoria)
+        elif modalidad == "Velotierra":
+            categoria = canonical_velotierra_categoria(categoria)
         by_cat_files[categoria].append((tipo, path))
 
     out = {}
@@ -611,6 +632,8 @@ def load_valida_attendees(files_dir, modalidad=None):
         categoria, tipo = parse_filename(filename)
         if modalidad == "Enduro":
             categoria = canonical_enduro_categoria(categoria)
+        elif modalidad == "Velotierra":
+            categoria = canonical_velotierra_categoria(categoria)
         by_cat_files[categoria].append((tipo, path))
 
     attendees = {}

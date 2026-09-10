@@ -219,6 +219,25 @@ REPORT_CONFIGS = [
         ),
     },
     {
+        "output_html": os.path.join(
+            SCRIPT_DIR, "Velotierra", "Segundo semestre", "informe_valida_ii_vt_popayan.html"
+        ),
+        "files_dir": os.path.join(
+            ROOT_DIR,
+            "Resultados_validas",
+            "Velotierra",
+            "Segundo semestre",
+            "FILES EXPORTED_Popayan",
+        ),
+        "title": "Informe II Válida VT - Popayán, Cauca | FEDEMOTO",
+        "heading": "Informe II Válida Nacional Velotierra — Segundo semestre",
+        "subtitle": "Popayán, Cauca — Estadísticas de la válida",
+        "intro": (
+            "A continuación se presentan las estadísticas generadas a partir de los resultados "
+            "de la II Válida Nacional Velotierra del segundo semestre, realizada en Popayán, Cauca."
+        ),
+    },
+    {
         "output_html": os.path.join(SCRIPT_DIR, "GP Colombia", "informe_valida_i_gp_colombia_vitrix.html"),
         "files_dir": os.path.join(
             ROOT_DIR,
@@ -344,6 +363,15 @@ def find_header_indexes(headers):
     return idx_num, idx_nombre, idx_liga, idx_club, idx_moto
 
 
+def canonical_velotierra_categoria(cat):
+    k = normalize_ascii(cat).strip().lower()
+    if k in ("200 expertos", "expertos 200"):
+        return "Expertos"
+    if k in ("200 novatos", "novatos 200"):
+        return "Novatos"
+    return cat
+
+
 def collect_rows_by_category(files_dir, session_priority=None):
     by_categoria = defaultdict(list)
     files_per_cat = defaultdict(list)
@@ -356,6 +384,7 @@ def collect_rows_by_category(files_dir, session_priority=None):
             continue
         categoria, tipo = parse_filename(filename)
         categoria = canonical_enduro_categoria(categoria)
+        categoria = canonical_velotierra_categoria(categoria)
         files_per_cat[categoria].append((tipo, filepath))
 
     for categoria, files in files_per_cat.items():
